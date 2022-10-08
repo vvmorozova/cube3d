@@ -3,9 +3,11 @@
 
 #include "parser/parser.h"
 #include "utils/utils.h"
+#include "libft/libft.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <string.h>
 
 typedef struct s_map_size{
     int x;
@@ -18,4 +20,6 @@ typedef struct s_parsed_map{
     char        **map;
 }   t_parsed_map;
 
+
+int write_err_and_exit(char *err);
 #endif
