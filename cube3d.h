@@ -1,8 +1,8 @@
 #ifndef CUBE3D_H
 #define CUBE3D_H
 
-#include "parser/parser.h"
 #include "utils/utils.h"
+#include "parser/parser.h"
 #include "libft/libft.h"
 #include <stdio.h>
 #include <unistd.h>
@@ -20,6 +20,4 @@ typedef struct s_parsed_map{
     char        **map;
 }   t_parsed_map;
 
-
-int write_err_and_exit(char *err);
 #endif

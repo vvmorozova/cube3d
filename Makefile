@@ -1,13 +1,14 @@
-SRCS			=	main.c \
+SRCS			=	utils/error.c \
 					parser/parser.c \
-					utils/error.c \
-					gnl/get_next_line.c gnl/get_next_line_utils.c 
+					gnl/get_next_line.c gnl/get_next_line_utils.c \
+					main.c
 
 OBJS			= $(SRCS:.c=.o)
+HEADER			= cube3d.h
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror -I.
+CFLAGS			= -Wall -Wextra -Werror -I. -g 
 LIBS			= -Lmlx -lmlx -framework OpenGL -framework AppKit -lm
 MLX				= libmlx.dylib
 LIBFT			= ./libft
@@ -15,18 +16,22 @@ NAME			= cub3D
 
 all:			$(NAME)
 
-$(NAME):		 $(OBJS)
+$(NAME):		$(OBJS)
 				make -C ${LIBFT}
-				gcc  -o ${CFLAGS} -L./libft ${NAME} ${OBJS} 
+				$(CC) ${CFLAGS} -o ${NAME} ${OBJS} -L${LIBFT} -lft 
 
-$(MLX):
-				@$(MAKE) -C mlx
-				@mv mlx/$(MLX) .
+# $(MLX):
+# 				@$(MAKE) -C mlx
+# 				@mv mlx/$(MLX) .
+%.o: %.c  */*.h $(HEADER)
+	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
+				make clean -C ${LIBFT}
 				$(RM) $(OBJS) $
 
 fclean:			clean
+				make fclean -C ${LIBFT}
 				$(RM) $(NAME)
 
 re:				fclean $(NAME)
