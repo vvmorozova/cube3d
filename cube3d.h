@@ -8,24 +8,24 @@
 #include <string.h>
 
 typedef struct s_map_size{
-    int x;
-    int y;
-}   t_map_size;
+	int	x;
+	int	y;
+}	t_map_size;
 
 typedef struct s_path_to_textures{
-    int n;
-    int s;
-    int w;
-    int e;
+	int	n;
+	int	s;
+	int	w;
+	int	e;
 }   t_path_to_textures;
 
 typedef struct s_parsed_map{
-    t_path_to_textures  texture;
-    t_map_size          size;
-    char                direction;
-    int                 **map;
+	t_path_to_textures	texture;
+	t_map_size			size;
+	int					direction;
+	int					**map;
 
-}   t_parsed_map;
+}	t_parsed_map;
 
 // PARSER
 int parse(int argc, char **argv);

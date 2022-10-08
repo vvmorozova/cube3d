@@ -37,11 +37,12 @@ int	check_path(char *str, char *dir)
 	path = (char *)malloc(sizeof(char) * (t + 1));
 	ft_memmove(path, str + 3, t + 1);
 	path[t] = '\0';
-	// printf("t %d path %s str %s\n", t, path, str);
 	t = open(path, O_RDONLY);
 	printf("t %d path %s str %s\n", t, path, str);
 	if (t > 0)
 	{
+		if (ft_strncmp(path + ft_strlen(path) - 4, ".xpm", 5))
+			write_err_and_exit("Texture is not .xpm");
 		free(path);
 		return (t);
 	}
@@ -71,8 +72,11 @@ int	parse(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (fd <= 0)
 		write_err_and_exit("Map not found");
-	if (ft_strncmp(argv[1] + ft_strlen(argv[1]) - 3 - 1, ".cub", 5))
+	if (ft_strncmp(argv[1] + ft_strlen(argv[1]) - 4, ".cub", 5))
 		write_err_and_exit("File is not .cub");
 	check_textures(fd);
+	check_colors(fd);
+	check_map(fd);
+	close(fd);
 	return (0);
 }
