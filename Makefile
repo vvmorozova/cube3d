@@ -1,4 +1,4 @@
-SRCS			=	utils/error.c \
+SRCS			=	utils/utils.c \
 					parser/parser.c \
 					gnl/get_next_line.c gnl/get_next_line_utils.c \
 					main.c
@@ -24,7 +24,7 @@ $(NAME):		$(OBJS)
 # 				@$(MAKE) -C mlx
 # 				@mv mlx/$(MLX) .
 %.o: %.c  */*.h $(HEADER)
-	$(CC) $(FLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 				make clean -C ${LIBFT}
