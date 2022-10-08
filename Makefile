@@ -1,7 +1,7 @@
-SRCS			=	utils/utils.c \
-					parser/parser.c \
-					gnl/get_next_line.c gnl/get_next_line_utils.c \
-					main.c
+SRCS			=	main.c \
+					utils/utils.c \
+					parser/parser.c parser/parse_textures.c\
+					gnl/get_next_line.c gnl/get_next_line_utils.c 
 
 OBJS			= $(SRCS:.c=.o)
 HEADER			= cube3d.h

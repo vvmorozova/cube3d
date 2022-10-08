@@ -1,11 +1,11 @@
 #ifndef CUBE3D_H
-#define CUBE3D_H
+# define CUBE3D_H
 
-#include "libft/libft.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <string.h>
+# include "libft/libft.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <string.h>
 
 typedef struct s_map_size{
 	int	x;
@@ -27,12 +27,11 @@ typedef struct s_parsed_map{
 
 }	t_parsed_map;
 
-t_parsed_map	g_map;
 // PARSER
-int parse(int argc, char **argv);
-int write_err_and_exit(char *err);
-int is_space(char c);
 char	*get_next_line(int fd);
-int	check_textures(int fd);
+int		parse(int argc, char **argv);
+int		write_err_and_exit(char *err);
+int		is_space(char c);
+int		check_textures(int fd);
 
 #endif
