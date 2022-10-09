@@ -60,15 +60,15 @@ int	check_path(char *str, char *dir)
 	}
 	else
 		write_err_and_exit("Texture not found");
-	return (0);
+	return (-1);
 }
 
-int	check_textures(int fd)
+int	check_textures(char *line, t_parsed_map *g_map)
 {
-	g_map.texture.n = check_path(get_next_line(fd), "NO ");
-	g_map.texture.s = check_path(get_next_line(fd), "SO ");
-	g_map.texture.w = check_path(get_next_line(fd), "WE ");
-	g_map.texture.e = check_path(get_next_line(fd), "EA ");
+	g_map->texture.n = check_path(line, "NO ");
+	g_map->texture.s = check_path(line, "SO ");
+	g_map->texture.w = check_path(line, "WE ");
+	g_map->texture.e = check_path(line, "EA ");
 
 	return (0);
 }

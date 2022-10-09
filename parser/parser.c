@@ -12,9 +12,15 @@
 
 #include "../cube3d.h"
 
-int	parse(int argc, char **argv)
+// void	init_g_map(t_parsed_map *g_map)
+// {
+
+// }
+
+int	parse(int argc, char **argv, t_parsed_map *g_map)
 {
 	int	fd;
+	char	*line;
 
 	if (argc == 1)
 		write_err_and_exit("No map");
@@ -25,12 +31,11 @@ int	parse(int argc, char **argv)
 		write_err_and_exit("Map not found");
 	if (ft_strncmp(argv[1] + ft_strlen(argv[1]) - 4, ".cub", 5))
 		write_err_and_exit("File is not .cub");
-	check_textures(fd);
-	if (*get_next_line(fd))
-		write_err_and_exit("Wrong file formatting");
+	
+	line = get_next_line(fd);
+	check_textures(line, g_map);
+	free(line);
 	// check_colors(fd);
-	// if (*get_next_line(fd))
-	// 	write_err_and_exit("Wrong file formatting");
 	// check_map(fd);
 	close(fd);
 	return (0);

@@ -7,6 +7,12 @@
 # include <fcntl.h>
 # include <string.h>
 
+typedef struct s_rgb{
+	int	r;
+	int	g;
+	int	b;
+}	t_rgb;
+
 typedef struct s_map_size{
 	int	x;
 	int	y;
@@ -22,16 +28,21 @@ typedef struct s_path_to_textures{
 typedef struct s_parsed_map{
 	t_path_to_textures	texture;
 	t_map_size			size;
+	t_rgb				ceiling;
+	t_rgb				floor;
 	int					direction;
 	int					**map;
 
 }	t_parsed_map;
 
+// t_parsed_map	g_map;
 // PARSER
 char	*get_next_line(int fd);
-int		parse(int argc, char **argv);
+int		parse(int argc, char **argv, t_parsed_map *g_map);
 int		write_err_and_exit(char *err);
 int		is_space(char c);
-int		check_textures(int fd);
+int		check_textures(char *line, t_parsed_map *g_map);
+int		check_color(char *str, char *dir, t_rgb *flat);
+int		check_ce_and_fl(char *line, t_parsed_map *g_map);
 
 #endif
