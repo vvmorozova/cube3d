@@ -58,6 +58,9 @@ typedef struct	s_mlx {
 
 }			t_mlx;
 
+void	redraw(t_mlx *mlx_data, t_data *data);
+
+
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void	verLine(t_img *img, int x, int drawStart, int drawEnd, int color);
 
