@@ -1,7 +1,7 @@
-NO    ./textures/a.ber
-SO ./textures/a.br
-WE ./textures/a.ber
-EA ./textures/ddd
+NO    /Users/eward/Documents/cube3d/textures/a.xpm
+SO /Users/eward/Documents/cube3d/textures/a.xpm
+WE /Users/eward/Documents/cube3d/textures/a.xpm
+EA /Users/eward/Documents/cube3d/textures/a.xpm
 F 220,100,0
 C 225,30,0
         1111111111111111111111111

@@ -42,15 +42,19 @@ int	check_path(char *str, char *dir)
 	int		t;
 
 	if (ft_strlen(str) < 4 || ft_strncmp(str, dir, 3))
-		write_err_and_exit("Wrong textures token");
-	t = get_path_len(str + 3);
+		return(-2);
+	str = str + 2;
+	while (is_space(*str))
+		str++;
+	t = get_path_len(str);
 	if (!t)
-		return (-1);
+		return (-2);
 	path = (char *)malloc(sizeof(char) * (t + 1));
-	ft_memmove(path, str + 3, t + 1);
+	if (!path)
+		return (-2);
+	ft_memmove(path, str, t + 1);
 	path[t] = '\0';
 	t = open(path, O_RDONLY);
-	printf("t %d path %s str %s\n", t, path, str);
 	if (t > 0)
 	{
 		if (ft_strncmp(path + ft_strlen(path) - 4, ".xpm", 5))
@@ -60,15 +64,21 @@ int	check_path(char *str, char *dir)
 	}
 	else
 		write_err_and_exit("Texture not found");
-	return (-1);
+	return (-2);
 }
 
 int	check_textures(char *line, t_parsed_map *g_map)
 {
-	g_map->texture.n = check_path(line, "NO ");
-	g_map->texture.s = check_path(line, "SO ");
-	g_map->texture.w = check_path(line, "WE ");
-	g_map->texture.e = check_path(line, "EA ");
-
+	if (g_map->texture.n < 0)
+		g_map->texture.n = check_path(line, "NO ");
+	if (g_map->texture.s < 0)
+		g_map->texture.s = check_path(line, "SO ");
+	if (g_map->texture.w < 0)
+		g_map->texture.w = check_path(line, "WE ");
+	if (g_map->texture.e < 0)
+		g_map->texture.e = check_path(line, "EA ");
+	if (g_map->texture.n == -2 && g_map->texture.s == -2
+			&& g_map->texture.w == -2 && g_map->texture.e == -2)
+		return (-1);
 	return (0);
 }

@@ -43,6 +43,6 @@ int		write_err_and_exit(char *err);
 int		is_space(char c);
 int		check_textures(char *line, t_parsed_map *g_map);
 int		check_color(char *str, char *dir, t_rgb *flat);
-int		check_ce_and_fl(char *line, t_parsed_map *g_map);
+int		check_flat(char *line, t_parsed_map *g_map);
 
 #endif

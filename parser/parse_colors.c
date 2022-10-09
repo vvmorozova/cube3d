@@ -47,13 +47,13 @@ int	check_colors(char *str, char id, t_rgb *flat)
 	}
 	else
 		return (-1);
-	return (-1);
+	return (0);
 }
 
-int	check_ce_and_fl(char *line, t_parsed_map *g_map)
+int	check_flat(char *line, t_parsed_map *g_map)
 {
-	check_colors(line, 'F', &(g_map->ceiling));
-	// check_colors(line, "C ", g_map->floor);
-
+	if (check_colors(line, 'C', &(g_map->ceiling)) == -1
+			&& check_colors(line, 'F', &(g_map->floor)) == -1)
+		return (-1);
 	return (0);
 }
