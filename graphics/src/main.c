@@ -17,8 +17,8 @@ int	main(void)
 	// t_img	img;
 
 	mlx_data.mlx = mlx_init();
-	mlx_data.mlx_win = mlx_new_window(mlx_data.mlx, 1920, 1080, "Hello world!");
-	mlx_data.img.img = mlx_new_image(mlx_data.mlx, 1920, 1080);
+	mlx_data.mlx_win = mlx_new_window(mlx_data.mlx, screenWidth, screenHeight, "Hello world!");
+	mlx_data.img.img = mlx_new_image(mlx_data.mlx, screenWidth, screenHeight);
 	mlx_data.img.addr = mlx_get_data_addr(mlx_data.img.img, &mlx_data.img.bits_per_pixel, &mlx_data.img.line_length,
 								&mlx_data.img.endian);
 	
