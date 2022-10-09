@@ -44,5 +44,7 @@ int		is_space(char c);
 int		check_textures(char *line, t_parsed_map *g_map);
 int		check_color(char *str, char *dir, t_rgb *flat);
 int		check_flat(char *line, t_parsed_map *g_map);
+int		count_h_w(int fd, int how_many_to_skip, char *filename, t_parsed_map *g_map);
+int		parse_map(int fd, t_parsed_map *g_map);
 
 #endif

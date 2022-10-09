@@ -46,7 +46,9 @@ int	parse(int argc, char **argv, t_parsed_map *g_map)
 {
 	int	fd;
 	char	*line;
+	int		until_map;
 
+	until_map = 0;
 	init_g_map(g_map);
 	if (argc == 1)
 		write_err_and_exit("No map");
@@ -64,10 +66,13 @@ int	parse(int argc, char **argv, t_parsed_map *g_map)
 			write_err_and_exit("Id is not recognized");
 		free(line);
 		line = get_next_line(fd);
+		until_map++;
 	}
+	fd = count_h_w(fd, until_map, argv[1], g_map);
 	if (check_if_g_map_ready(g_map) == 0)
-	{
-	}
+		parse_map(fd, g_map);
+	else
+		write_err_and_exit("Not enough data");
 	close(fd);
 	return (0);
 }
