@@ -20,6 +20,13 @@ typedef struct	s_data {
 
 }			t_data;
 
+typedef struct	s_mlx {
+	void	*mlx;
+	void	*mlx_win;
+	t_img	img;
+
+}			t_mlx;
+
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void	verLine(t_img *img, int x, int drawStart, int drawEnd, int color);
 
