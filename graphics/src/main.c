@@ -61,6 +61,9 @@ char worldMap[mapWidth][mapHeight]=
 };
 
 
+
+
+
 #include "graphics.h"
 
 int	main(void)
@@ -75,21 +78,22 @@ int	main(void)
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 								&img.endian);
 	
-	double posX = 22, posY = 12.0;  //x and y start position
-	double dirX = -1, dirY = 0; //initial direction vector
-	double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
-
+	// data init
+	t_data	data;
+	data.posX = 22,	data.posY = 12.0;
+	data.dirX = -1,	data.dirY = 0;
+	data.planeX = 0, data.planeY = 0.66;
 
 	for (int x = 0; x < screenWidth; x++)
 	{
 		//calculate ray position and direction
 		double cameraX = 2 * x / (double) screenWidth - 1; //x-coordinate in camera space
-		double rayDirX = dirX + planeX * cameraX;
-		double rayDirY = dirY + planeY * cameraX;
+		double rayDirX = data.dirX + data.planeX * cameraX;
+		double rayDirY = data.dirY + data.planeY * cameraX;
 	
 		//which box of the map we're in
-		int mapX = (int)posX;
-		int mapY = (int)posY;
+		int mapX = (int)data.posX ;
+		int mapY = (int)data.posY;
 
 		//length of ray from current position to next x or y-side
 		double sideDistX;
@@ -111,22 +115,22 @@ int	main(void)
 		if (rayDirX < 0)
 		{
 			stepX = -1;
-			sideDistX = (posX - mapX) * deltaDistX;
+			sideDistX = (data.posX  - mapX) * deltaDistX;
 		}
 		else
 		{
 			stepX = 1;
-			sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+			sideDistX = (mapX + 1.0 - data.posX ) * deltaDistX;
 		}
 		if (rayDirY < 0)
 		{
 			stepY = -1;
-			sideDistY = (posY - mapY) * deltaDistY;
+			sideDistY = (data.posY - mapY) * deltaDistY;
 		}
 		else
 		{
 			stepY = 1;
-			sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+			sideDistY = (mapY + 1.0 - data.posY) * deltaDistY;
 		}
 
 		//perform DDA
