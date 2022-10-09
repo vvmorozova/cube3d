@@ -32,7 +32,7 @@
 #define screenWidth 640
 #define screenHeight 480
 
-char worldMap[mapWidth][mapHeight]=
+char world_map[mapWidth][mapHeight]=
 {
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -80,101 +80,101 @@ int	main(void)
 	
 	// data init
 	t_data	data;
-	data.posX = 22,	data.posY = 12.0;
-	data.dirX = -1,	data.dirY = 0;
-	data.planeX = 0, data.planeY = 0.66;
+	data.pos_x = 22,	data.pos_y = 12.0;
+	data.dir_x = -1,	data.dir_y = 0;
+	data.plane_x = 0, data.plane_y = 0.66;
 
 	for (int x = 0; x < screenWidth; x++)
 	{
 		//calculate ray position and direction
-		double cameraX = 2 * x / (double) screenWidth - 1; //x-coordinate in camera space
-		double rayDirX = data.dirX + data.planeX * cameraX;
-		double rayDirY = data.dirY + data.planeY * cameraX;
+		double camera_x = 2 * x / (double) screenWidth - 1; //x-coordinate in camera space
+		double ray_dir_x = data.dir_x + data.plane_x * camera_x;
+		double ray_dir_y = data.dir_y + data.plane_y * camera_x;
 	
 		//which box of the map we're in
-		int mapX = (int)data.posX ;
-		int mapY = (int)data.posY;
+		int map_x = (int)data.pos_x ;
+		int map_y = (int)data.pos_y;
 
 		//length of ray from current position to next x or y-side
-		double sideDistX;
-		double sideDistY;
+		double side_dist_x;
+		double side_dist_y;
 
 		//length of ray from one x or y-side to next x or y-side
-		double deltaDistX = (rayDirX == 0) ? 1e30 : fabs(1 / rayDirX);
-		double deltaDistY = (rayDirY == 0) ? 1e30 : fabs(1 / rayDirY);
-		double perpWallDist;
+		double delta_dist_x = (ray_dir_x == 0) ? 1e30 : fabs(1 / ray_dir_x);
+		double delta_dist_y = (ray_dir_y == 0) ? 1e30 : fabs(1 / ray_dir_y);
+		double perp_wall_dist;
 
 		//what direction to step in x or y-direction (either +1 or -1)
-		int stepX;
-		int stepY;
+		int step_x;
+		int step_y;
 
 		int hit = 0; //was there a wall hit?
 		int side; //was a NS or a EW wall hit?
 	
 		//calculate step and initial sideDist
-		if (rayDirX < 0)
+		if (ray_dir_x < 0)
 		{
-			stepX = -1;
-			sideDistX = (data.posX  - mapX) * deltaDistX;
+			step_x = -1;
+			side_dist_x = (data.pos_x  - map_x) * delta_dist_x;
 		}
 		else
 		{
-			stepX = 1;
-			sideDistX = (mapX + 1.0 - data.posX ) * deltaDistX;
+			step_x = 1;
+			side_dist_x = (map_x + 1.0 - data.pos_x ) * delta_dist_x;
 		}
-		if (rayDirY < 0)
+		if (ray_dir_y < 0)
 		{
-			stepY = -1;
-			sideDistY = (data.posY - mapY) * deltaDistY;
+			step_y = -1;
+			side_dist_y = (data.pos_y - map_y) * delta_dist_y;
 		}
 		else
 		{
-			stepY = 1;
-			sideDistY = (mapY + 1.0 - data.posY) * deltaDistY;
+			step_y = 1;
+			side_dist_y = (map_y + 1.0 - data.pos_y) * delta_dist_y;
 		}
 
 		//perform DDA
 		while (hit == 0)
 		{
 			//jump to next map square, either in x-direction, or in y-direction
-			if (sideDistX < sideDistY)
+			if (side_dist_x < side_dist_y)
 			{
-			sideDistX += deltaDistX;
-			mapX += stepX;
+			side_dist_x += delta_dist_x;
+			map_x += step_x;
 			side = 0;
 			}
 			else
 			{
-			sideDistY += deltaDistY;
-			mapY += stepY;
+			side_dist_y += delta_dist_y;
+			map_y += step_y;
 			side = 1;
 			}
 			//Check if ray has hit a wall
-			if (worldMap[mapX][mapY] > 0)
+			if (world_map[map_x][map_y] > 0)
 				hit = 1;
 		} 
 
 		//Calculate distance projected on camera direction (Euclidean distance would give fisheye effect!)
 		if (side == 0)
-			perpWallDist = (sideDistX - deltaDistX);
+			perp_wall_dist = (side_dist_x - delta_dist_x);
 		else
-			perpWallDist = (sideDistY - deltaDistY);
+			perp_wall_dist = (side_dist_y - delta_dist_y);
 
 		//Calculate height of line to draw on screen
-		int lineHeight = (int)(screenHeight / perpWallDist);
+		int line_height = (int)(screenHeight / perp_wall_dist);
 
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStart = -lineHeight / 2 + screenHeight / 2;
-		if (drawStart < 0)
-			drawStart = 0;
-		int drawEnd = lineHeight / 2 + screenHeight / 2;
-		if (drawEnd >= screenHeight)
-			drawEnd = screenHeight - 1;
+		int draw_start = -line_height / 2 + screenHeight / 2;
+		if (draw_start < 0)
+			draw_start = 0;
+		int draw_end = line_height / 2 + screenHeight / 2;
+		if (draw_end >= screenHeight)
+			draw_end = screenHeight - 1;
 
 
 		//choose wall color
 		int color;
-		switch(worldMap[mapX][mapY])
+		switch(world_map[map_x][map_y])
 		{
 			case 1:  color = RED;  break; //red
 			case 2:  color = GREEN;  break; //green
@@ -190,7 +190,7 @@ int	main(void)
 		}
 
 		//draw the pixels of the stripe as a vertical line
-		verLine(&img, x, drawStart, drawEnd, color);
+		verLine(&img, x, draw_start, draw_end, color);
 		mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 
 	}

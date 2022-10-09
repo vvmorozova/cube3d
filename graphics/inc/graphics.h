@@ -10,13 +10,13 @@ typedef struct	s_img {
 }			t_img;
 
 typedef struct	s_data {
-	double posX; //start position
-	double posY;//start position
+	double pos_x; //start position
+	double pos_y;//start position
 
-	double dirX; //initial direction vector
-	double dirY; //initial direction vector
-	double planeX; //the 2d raycaster version of camera plane
-	double planeY; //the 2d raycaster version of camera plane
+	double dir_x; //initial direction vector
+	double dir_y; //initial direction vector
+	double plane_x; //the 2d raycaster version of camera plane
+	double plane_y; //the 2d raycaster version of camera plane
 
 }			t_data;
 
