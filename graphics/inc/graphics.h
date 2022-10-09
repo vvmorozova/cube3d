@@ -1,6 +1,37 @@
 #ifndef GRAPHICS_H
 # define GRAPHICS_H
 
+
+# ifndef RED
+#  define  RED 0x00FF0000
+# endif
+
+# ifndef BLUE
+#  define BLUE 0x0000ff
+# endif
+
+# ifndef YELLOW
+#  define YELLOW 0xFF5733
+# endif
+
+# ifndef GREEN
+#  define GREEN 0x75FF33
+# endif
+
+# ifndef WHITE
+#  define WHITE 0xFFFFFF
+# endif
+
+
+#define mapWidth 24
+#define mapHeight 24
+#define screenWidth 640
+#define screenHeight 480
+
+
+
+
+
 typedef struct	s_img {
 	void	*img;
 	char	*addr;
