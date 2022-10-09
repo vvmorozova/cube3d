@@ -51,7 +51,7 @@ int	check_path(char *str, char *dir)
 		return (-2);
 	path = (char *)malloc(sizeof(char) * (t + 1));
 	if (!path)
-		return (-2);
+		write_err_and_exit("Error while allocating memory");
 	ft_memmove(path, str, t + 1);
 	path[t] = '\0';
 	t = open(path, O_RDONLY);
@@ -69,16 +69,15 @@ int	check_path(char *str, char *dir)
 
 int	check_textures(char *line, t_parsed_map *g_map)
 {
-	if (g_map->texture.n < 0)
+	if (g_map->texture.n < 0 && !ft_strncmp(line, "NO ", 3))
 		g_map->texture.n = check_path(line, "NO ");
-	if (g_map->texture.s < 0)
+	else if (g_map->texture.s < 0 && !ft_strncmp(line, "SO ", 3))
 		g_map->texture.s = check_path(line, "SO ");
-	if (g_map->texture.w < 0)
+	else if (g_map->texture.w < 0 && !ft_strncmp(line, "WE ", 3))
 		g_map->texture.w = check_path(line, "WE ");
-	if (g_map->texture.e < 0)
+	else if (g_map->texture.e < 0 && !ft_strncmp(line, "EA ", 3))
 		g_map->texture.e = check_path(line, "EA ");
-	if (g_map->texture.n == -2 && g_map->texture.s == -2
-			&& g_map->texture.w == -2 && g_map->texture.e == -2)
+	else
 		return (-1);
 	return (0);
 }

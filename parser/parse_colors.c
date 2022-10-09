@@ -52,8 +52,11 @@ int	check_colors(char *str, char id, t_rgb *flat)
 
 int	check_flat(char *line, t_parsed_map *g_map)
 {
-	if (check_colors(line, 'C', &(g_map->ceiling)) == -1
-			&& check_colors(line, 'F', &(g_map->floor)) == -1)
+	if (g_map->ceiling.r < 0 && *line == 'C')
+		check_colors(line, 'C', &(g_map->ceiling));
+	else if (g_map->floor.r < 0 && *line == 'F')
+		check_colors(line, 'F', &(g_map->floor));
+	else
 		return (-1);
 	return (0);
 }

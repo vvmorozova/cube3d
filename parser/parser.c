@@ -60,8 +60,8 @@ int	parse(int argc, char **argv, t_parsed_map *g_map)
 	line = get_next_line(fd);
 	while (line && check_if_g_map_ready(g_map) == -1)
 	{
-		check_textures(line, g_map);
-		check_flat(line, g_map);
+		if (check_textures(line, g_map) == -1 && check_flat(line, g_map) == -1)
+			write_err_and_exit("Id is not recognized");
 		free(line);
 		line = get_next_line(fd);
 	}
