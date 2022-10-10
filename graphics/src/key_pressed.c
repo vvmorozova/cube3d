@@ -59,11 +59,17 @@ int	key_pressed(int keycode, t_all_data *a_data)
 	}
 	else if (keycode == 0) // a
 	{
-
+		if (!world_map[(int) (d->pos_x - d->plane_x * move_speed)][(int) d->pos_y])
+			d->pos_x -= d->plane_x * move_speed;
+		if (!world_map[(int) d->pos_x][(int) (d->pos_y - d->plane_y * move_speed)])
+			d->pos_y -= d->plane_y * move_speed;
 	}
 	else if (keycode == 2) // d
 	{
-		
+		if (!world_map[(int) (d->pos_x + d->plane_x * move_speed)][(int) d->pos_y])
+			d->pos_x += d->plane_x * move_speed;
+		if (!world_map[(int) d->pos_x][(int) (d->pos_y + d->plane_y * move_speed)])
+			d->pos_y += d->plane_y * move_speed;
 	}
 	redraw(a_data->mlx_data, a_data->data);
 	return (0);
