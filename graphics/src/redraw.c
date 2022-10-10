@@ -39,6 +39,10 @@ void	draw_c_f(t_mlx *mlx_data);
 
 void	redraw(t_mlx *mlx_data, t_data *data)
 {
+	// mlx_data->img.img = mlx_new_image(mlx_data->mlx, screenWidth, screenHeight);
+	// mlx_data->img.addr = mlx_get_data_addr(mlx_data->img.img, &mlx_data->img.bits_per_pixel, &mlx_data->img.line_length,
+	// 							&mlx_data->img.endian);
+
 	draw_c_f(mlx_data);
 
 	for (int x = 0; x < screenWidth; x++)
@@ -151,6 +155,7 @@ void	redraw(t_mlx *mlx_data, t_data *data)
 
 	}
 	mlx_put_image_to_window(mlx_data->mlx, mlx_data->mlx_win, mlx_data->img.img, 0, 0);
+	// mlx_destroy_image(mlx_data->mlx, mlx_data->img.img);
 
 }
 // */
