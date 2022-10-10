@@ -35,10 +35,6 @@
 #define screenWidth 640
 #define screenHeight 480
 
-
-
-
-
 typedef struct	s_img {
 	void	*img;
 	char	*addr;
@@ -65,11 +61,27 @@ typedef struct	s_mlx {
 
 }			t_mlx;
 
+typedef struct	s_all_data {
+	t_mlx	*mlx_data;
+	t_data	*data;
+}			t_all_data;
+
+# ifndef ROT_SPEED
+#  define ROT_SPEED 0.5
+# endif
+
+# ifndef MOVE_SPEED
+#  define MOVE_SPEED 0.7
+# endif
+
+
 void	redraw(t_mlx *mlx_data, t_data *data);
 
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void	verLine(t_img *img, int x, int drawStart, int drawEnd, int color);
+
+int	key_pressed(int keycode, t_all_data *a_data);
 
 
 #endif
