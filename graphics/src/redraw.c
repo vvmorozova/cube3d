@@ -35,9 +35,12 @@ char world_map[mapWidth][mapHeight]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
+void	draw_c_f(t_mlx *mlx_data);
 
 void	redraw(t_mlx *mlx_data, t_data *data)
 {
+	draw_c_f(mlx_data);
+
 	for (int x = 0; x < screenWidth; x++)
 	{
 		//calculate ray position and direction
@@ -145,8 +148,24 @@ void	redraw(t_mlx *mlx_data, t_data *data)
 
 		//draw the pixels of the stripe as a vertical line
 		verLine(&mlx_data->img, x, draw_start, draw_end, color);
-		mlx_put_image_to_window(mlx_data->mlx, mlx_data->mlx_win, mlx_data->img.img, 0, 0);
 
 	}
+	mlx_put_image_to_window(mlx_data->mlx, mlx_data->mlx_win, mlx_data->img.img, 0, 0);
+
 }
 // */
+
+void	draw_c_f(t_mlx *mlx_data)
+{
+	unsigned int	*dst;
+	unsigned int		i;
+
+	dst = (unsigned int *) mlx_data->img.addr;
+	i = screenWidth * screenHeight / 2 + 1;
+	while (--i > 0)
+		*(unsigned int *) dst++ = CEILING;
+	i = screenWidth * screenHeight / 2 + 1;
+	while (--i > 0) {
+		*(unsigned int *) dst++ = FLOOR;
+	}
+}

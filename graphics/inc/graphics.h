@@ -22,6 +22,13 @@
 #  define WHITE 0xFFFFFF
 # endif
 
+# ifndef CEILING
+#  define CEILING 0xFCF3CF
+# endif
+
+# ifndef FLOOR
+#  define FLOOR 0x34495E
+# endif
 
 #define mapWidth 24
 #define mapHeight 24
