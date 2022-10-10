@@ -7,6 +7,14 @@
 #include "graphics.h"
 
 
+char world_map[mapWidth][mapHeight];
+
+// typedef struct	s_all_data {
+// 	t_mlx	*mlx_data;
+// 	t_data	*data;
+// }			t_all_data;
+
+// int	key_pressed(int keycode, t_all_data *a_data);
 
 int	main(void)
 {
@@ -30,7 +38,40 @@ int	main(void)
 
 	redraw(&mlx_data, &data);
 
+	// t_all_data	all_data;
+	// all_data.mlx_data = &mlx_data;
+	// all_data.data = &data;
+
+	// mlx_key_hook(mlx_data.mlx_win, key_pressed, &all_data);
+
+
 	// mlx_destroy_image
 	mlx_loop(mlx_data.mlx);
 }
 
+// int	key_pressed(int keycode, t_all_data *a_data)
+// {
+// 	if (keycode == 53)
+// 	{
+// 		mlx_destroy_image(a_data->mlx_data->mlx, a_data->mlx_data->img.img);
+// 		mlx_destroy_window(a_data->mlx_data->mlx, a_data->mlx_data->mlx_win);
+// 		exit(0);
+// 	}
+// 	// if (keycode == 78)
+// 	// {
+// 	// 	if (data->zoom > 5)
+// 	// 		data->zoom -= 5;
+// 	// }
+// 	// if (keycode == 69)
+// 	// 	data->zoom += 5;
+// 	// else if (keycode == 123)
+	
+// 	// else if (keycode == 124)
+	
+// 	// else if (keycode == 125)
+	
+// 	// else if (keycode == 126)
+	
+// 	// change_image(data);
+// 	return (0);
+// }
