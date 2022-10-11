@@ -37,7 +37,8 @@ char world_map[mapWidth][mapHeight]=
 
 void	draw_c_f(t_mlx *mlx_data);
 
-void	redraw(t_mlx *mlx_data, t_data *data)
+// void	redraw(t_mlx *mlx_data, t_data *data)
+void	redraw(t_mlx *mlx_data, t_data *data, t_img txt)
 {
 	// mlx_data->img.img = mlx_new_image(mlx_data->mlx, screenWidth, screenHeight);
 	// mlx_data->img.addr = mlx_get_data_addr(mlx_data->img.img, &mlx_data->img.bits_per_pixel, &mlx_data->img.line_length,
@@ -150,8 +151,53 @@ void	redraw(t_mlx *mlx_data, t_data *data)
 			color = color / 2;
 		}
 
+		// /*
+		// textures
+		//calculate value of wallX
+		double wall_x; //where exactly the wall was hit
+		if (side == 0)
+			wall_x = data->pos_y + perp_wall_dist * ray_dir_y;
+		else
+			wall_x = data->pos_x + perp_wall_dist * ray_dir_x;
+		wall_x -= floor((wall_x));
+
+		//x coordinate on the texture
+		int tex_x = (int) (wall_x * (double) TEX_WIDTH);
+		// if (side == 0 && ray_dir_x > 0)
+		// 	tex_x = TEX_WIDTH - tex_x - 1;
+		// if (side == 1 && ray_dir_y < 0)
+		// 	tex_x = TEX_WIDTH - tex_x - 1;
+
+		// How much to increase the texture coordinate per screen pixel
+		double step = 1.0 * TEX_HEIGHT / line_height;
+		// double step = 1.0 * line_height / TEX_HEIGHT;
+		// Starting texture coordinate
+		// double tex_pos = (draw_start - screenHeight / 2 + line_height / 2) * step;
+		int	y = draw_start;
+		for (double h = 0; h < (double)TEX_HEIGHT; h = h + step)
+		// for (int y = draw_start; y < draw_end; y++)
+		{
+			// Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
+			double tex_y = (double)h; // + step;
+			printf("tex_y %lf step %f text_x %d\n", tex_y, step, tex_x);
+			
+			// int tex_y = (int)tex_pos & (TEX_HEIGHT - 1);
+			// tex_pos += step;
+			// color = *(unsigned int *) (txt.addr + (tex_y * txt.line_length));
+			// color = *(unsigned int *) (txt.addr + (tex_y * 64));
+			color = *(unsigned int *) (txt.addr + ((int)tex_y * 64 + tex_x * (txt.bits_per_pixel / 8)));
+			my_mlx_pixel_put(&mlx_data->img, x, y, color);
+			// color = *(txt.addr + (tex_y * txt.line_length + tex_x * (txt.bits_per_pixel / 8)));
+
+			y++; // delete
+
+		}
+
+
+		// */
+
 		//draw the pixels of the stripe as a vertical line
-		verLine(&mlx_data->img, x, draw_start, draw_end, color);
+		// verLine(&mlx_data->img, x, draw_start, draw_end, color);
 
 	}
 	mlx_put_image_to_window(mlx_data->mlx, mlx_data->mlx_win, mlx_data->img.img, 0, 0);
