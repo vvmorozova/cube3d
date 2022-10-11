@@ -66,6 +66,13 @@ typedef struct	s_all_data {
 	t_data	*data;
 }			t_all_data;
 
+typedef struct	s_txtr {
+	t_img	img;
+	char	*relative_path;
+	int		img_width;
+	int		img_height;
+}			t_txtr;
+
 # ifndef ROT_SPEED
 #  define ROT_SPEED 0.5
 # endif
@@ -75,11 +82,23 @@ typedef struct	s_all_data {
 # endif
 
 
-void	redraw(t_mlx *mlx_data, t_data *data);
+// void	redraw(t_mlx *mlx_data, t_data *data);
+void	redraw(t_mlx *mlx_data, t_data *data, t_img txt);
 
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void	verLine(t_img *img, int x, int drawStart, int drawEnd, int color);
+
+# ifndef TEX_WIDTH
+#  define TEX_WIDTH 64
+# endif
+
+# ifndef TEX_HEIGHT
+#  define TEX_HEIGHT 64
+# endif
+
+int		init_txtrs(void *mlx, char *paths[], t_txtr ts[]);
+
 
 int	key_pressed(int keycode, t_all_data *a_data);
 
