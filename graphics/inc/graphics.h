@@ -84,7 +84,7 @@ typedef struct	s_txtr {
 
 
 // void	redraw(t_mlx *mlx_data, t_data *data);
-void	redraw(t_mlx *mlx_data, t_data *data, t_img *txt);
+void	redraw(t_all_data *a_data);
 
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);

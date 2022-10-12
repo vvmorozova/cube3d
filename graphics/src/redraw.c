@@ -40,11 +40,15 @@ void	draw_txt_line(t_img *src, t_img *dst, int start, int end, int height, int s
 int		find_pixel(const t_img *src, int x, int y);
 
 // void	redraw(t_mlx *mlx_data, t_data *data)
-void	redraw(t_mlx *mlx_data, t_data *data, t_img *txt)
+void	redraw(t_all_data *a_data)
 {
 	// mlx_data->img.img = mlx_new_image(mlx_data->mlx, screenWidth, screenHeight);
 	// mlx_data->img.addr = mlx_get_data_addr(mlx_data->img.img, &mlx_data->img.bits_per_pixel, &mlx_data->img.line_length,
 	// 							&mlx_data->img.endian);
+
+	t_mlx	*mlx_data = a_data->mlx_data;
+	t_data	*data = a_data->data;
+	t_img	*txt = a_data->txt;
 
 	draw_c_f(mlx_data);
 

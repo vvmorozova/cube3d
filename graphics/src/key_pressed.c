@@ -71,6 +71,6 @@ int	key_pressed(int keycode, t_all_data *a_data)
 		if (!world_map[(int) d->pos_x][(int) (d->pos_y + d->plane_y * move_speed)])
 			d->pos_y += d->plane_y * move_speed;
 	}
-	redraw(a_data->mlx_data, a_data->data, a_data->txt);
+	redraw(a_data);
 	return (0);
 }
