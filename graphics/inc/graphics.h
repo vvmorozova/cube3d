@@ -61,11 +61,6 @@ typedef struct	s_mlx {
 
 }			t_mlx;
 
-typedef struct	s_all_data {
-	t_mlx	*mlx_data;
-	t_data	*data;
-	t_img	*txt;
-}			t_all_data;
 
 typedef struct	s_txtr {
 	t_img	img;
@@ -73,6 +68,13 @@ typedef struct	s_txtr {
 	int		img_width;
 	int		img_height;
 }			t_txtr;
+
+typedef struct	s_all_data {
+	t_mlx	*mlx_data;
+	t_data	*data;
+	t_txtr	txtrs[4];
+	// t_img	*txt;
+}			t_all_data;
 
 # ifndef ROT_SPEED
 #  define ROT_SPEED 0.5

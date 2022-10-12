@@ -27,17 +27,7 @@ int	main(void)
 								&mlx_data.img.endian);
 
 	char	*txts_path[5] = {"./txts/colorstone.xpm", "./txts/greystone.xpm", "./txts/purplestone.xpm", "./txts/redbrick.xpm", NULL};
-	t_txtr txtrs[4];
-
-	if (init_txtrs(mlx_data.mlx, txts_path, txtrs))
-	{
-		// clean paths
-		// destroy main image
-		mlx_destroy_window(mlx_data.mlx, mlx_data.mlx_win);
-		exit(1);
-	}
-	// mlx_put_image_to_window(mlx_data.mlx, mlx_data.mlx_win, txtrs[3].img.img, 0, 0);
-
+	
 	// data init
 	t_data	data;
 	data.pos_x = 22,	data.pos_y = 12.0;
@@ -47,7 +37,16 @@ int	main(void)
 	t_all_data	all_data;
 	all_data.mlx_data = &mlx_data;
 	all_data.data = &data;
-	all_data.txt = &txtrs[3].img;
+
+	if (init_txtrs(mlx_data.mlx, txts_path, all_data.txtrs))
+	{
+		// clean paths
+		// destroy main image
+		mlx_destroy_window(mlx_data.mlx, mlx_data.mlx_win);
+		exit(1);
+	}
+	// mlx_put_image_to_window(mlx_data.mlx, mlx_data.mlx_win, txtrs[3].img.img, 0, 0);
+
 
 	redraw(&all_data);
 

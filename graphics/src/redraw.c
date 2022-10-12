@@ -48,7 +48,8 @@ void	redraw(t_all_data *a_data)
 
 	t_mlx	*mlx_data = a_data->mlx_data;
 	t_data	*data = a_data->data;
-	t_img	*txt = a_data->txt;
+	t_img	*txt;
+	// t_img	*txt = a_data->txt;
 
 	draw_c_f(mlx_data);
 
@@ -173,6 +174,22 @@ void	redraw(t_all_data *a_data)
 			tex_x = TEX_WIDTH - tex_x - 1;
 		if (side == 1 && ray_dir_y < 0)
 			tex_x = TEX_WIDTH - tex_x - 1;
+
+		//calculate texture
+		if (side == 0) // x side -> NS
+		{
+			if (ray_dir_x > 0)
+				txt = &((a_data->txtrs + 0)->img);
+			else
+				txt = &((a_data->txtrs + 1)->img);
+		}
+		else // y side -> EW
+		{
+			if (ray_dir_y > 0)
+				txt = &((a_data->txtrs + 2)->img);
+			else
+				txt = &((a_data->txtrs + 3)->img);
+		}
 
 		draw_txt_line(txt, &mlx_data->img, draw_start, draw_end, line_height, x, tex_x);
 
