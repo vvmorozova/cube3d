@@ -45,11 +45,12 @@ int	main(void)
 	data.plane_x = 0, data.plane_y = 0.66;
 
 	// redraw(&mlx_data, &data);
-	redraw(&mlx_data, &data, txtrs[3].img);
+	redraw(&mlx_data, &data, &txtrs[3].img);
 
 	t_all_data	all_data;
 	all_data.mlx_data = &mlx_data;
 	all_data.data = &data;
+	all_data.txt = &txtrs[3].img;
 
 	mlx_key_hook(mlx_data.mlx_win, key_pressed, &all_data);
 

@@ -36,9 +36,11 @@ char world_map[mapWidth][mapHeight]=
 };
 
 void	draw_c_f(t_mlx *mlx_data);
+void	draw_txt_line(t_img *src, t_img *dst, int start, int end, int height, int screen_x, int tex_x);
+int		find_pixel(const t_img *src, int x, int y);
 
 // void	redraw(t_mlx *mlx_data, t_data *data)
-void	redraw(t_mlx *mlx_data, t_data *data, t_img txt)
+void	redraw(t_mlx *mlx_data, t_data *data, t_img *txt)
 {
 	// mlx_data->img.img = mlx_new_image(mlx_data->mlx, screenWidth, screenHeight);
 	// mlx_data->img.addr = mlx_get_data_addr(mlx_data->img.img, &mlx_data->img.bits_per_pixel, &mlx_data->img.line_length,
@@ -146,10 +148,10 @@ void	redraw(t_mlx *mlx_data, t_data *data, t_img txt)
 		}
 
 		//give x and y sides different brightness
-		if (side == 1)
-		{
-			color = color / 2;
-		}
+		// if (side == 1)
+		// {
+		// 	color = color / 2;
+		// }
 
 		// /*
 		// textures
@@ -163,11 +165,14 @@ void	redraw(t_mlx *mlx_data, t_data *data, t_img txt)
 
 		//x coordinate on the texture
 		int tex_x = (int) (wall_x * (double) TEX_WIDTH);
-		// if (side == 0 && ray_dir_x > 0)
-		// 	tex_x = TEX_WIDTH - tex_x - 1;
-		// if (side == 1 && ray_dir_y < 0)
-		// 	tex_x = TEX_WIDTH - tex_x - 1;
+		if (side == 0 && ray_dir_x > 0)
+			tex_x = TEX_WIDTH - tex_x - 1;
+		if (side == 1 && ray_dir_y < 0)
+			tex_x = TEX_WIDTH - tex_x - 1;
 
+		draw_txt_line(txt, &mlx_data->img, draw_start, draw_end, line_height, x, tex_x);
+
+/*
 		// How much to increase the texture coordinate per screen pixel
 		double step = 1.0 * TEX_HEIGHT / line_height;
 		// double step = 1.0 * line_height / TEX_HEIGHT;
@@ -219,4 +224,33 @@ void	draw_c_f(t_mlx *mlx_data)
 	while (--i > 0) {
 		*(unsigned int *) dst++ = FLOOR;
 	}
+}
+
+
+
+void	draw_txt_line(t_img *src, t_img *dst, int start, int end, int height, int screen_x, int tex_x)
+{
+	int	color;
+	double	step = 1.0 * TEX_HEIGHT / height;
+	double tex_y = (start - screenHeight / 2 + height / 2) * step;;
+	// double	tex_y = 0;
+
+	// repeat for all pixels from start to end
+	for (int screen_y = start; screen_y < end; screen_y++) {
+
+	// locate src pixel
+	color = find_pixel(src, tex_x, (int)tex_y);
+		// printf("tex_y is %f; color is %d\n", tex_y, color);
+	tex_y += step;
+	
+	// draw src pixel to dst pixel
+	my_mlx_pixel_put(dst, screen_x, screen_y, color);
+	
+	}
+
+}
+
+int	find_pixel(const t_img *src, int x, int y)
+{
+	return (*(int *) (src->addr + y * src->line_length + x * (src->bits_per_pixel / 8)));
 }
