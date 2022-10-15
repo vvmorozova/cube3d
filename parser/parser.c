@@ -42,6 +42,26 @@ int	check_if_g_map_ready(t_parsed_map *g_map)
 	return (0);
 }
 
+void	print_map(t_parsed_map *g_map)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (j < g_map->size.y)
+	{
+		i = 0;
+		while (i < g_map->size.x)
+		{
+			printf("%2d ", g_map->map[j][i]);
+			i++;
+		}
+		printf("\n");
+		j++;
+	}
+}
+
 int	parse(int argc, char **argv, t_parsed_map *g_map)
 {
 	int	fd;
@@ -74,5 +94,7 @@ int	parse(int argc, char **argv, t_parsed_map *g_map)
 	else
 		write_err_and_exit("Not enough data");
 	close(fd);
+	print_map(g_map);
+	// printf ("\n%c\n", g_map->map[0][18]);
 	return (0);
 }

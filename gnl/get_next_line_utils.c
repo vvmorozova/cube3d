@@ -39,7 +39,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	rez = (char *)malloc(sizeof(char) * ((ft_strlen(s1) + ft_strlen(s2)) + 1));
+	rez = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (rez == NULL)
 		return (NULL);
 	if (s1)
