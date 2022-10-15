@@ -35,6 +35,14 @@ int	get_path_len(char *str)
 	else
 		return (-1);
 }
+
+void	check_texture_path(char *path)
+{
+	if (ft_strncmp(path + ft_strlen(path) - 4, ".xpm", 5))
+		write_err_and_exit("Texture is not .xpm");
+	free(path);
+}
+
 //тут получаем пути картинок
 int	check_path(char *str, char *dir)
 {
@@ -42,8 +50,8 @@ int	check_path(char *str, char *dir)
 	int		t;
 
 	if (ft_strlen(str) < 4 || ft_strncmp(str, dir, 3))
-		return(-2);
-	str = str + 2;
+		return (-2);
+	str += 2;
 	while (is_space(*str))
 		str++;
 	t = get_path_len(str);
@@ -57,9 +65,7 @@ int	check_path(char *str, char *dir)
 	t = open(path, O_RDONLY);
 	if (t > 0)
 	{
-		if (ft_strncmp(path + ft_strlen(path) - 4, ".xpm", 5))
-			write_err_and_exit("Texture is not .xpm");
-		free(path);
+		check_texture_path(path);
 		return (t);
 	}
 	else

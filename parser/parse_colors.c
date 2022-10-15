@@ -12,7 +12,7 @@
 
 #include "../cube3d.h"
 
-int skip_comma(char **str)
+int	skip_comma(char **str)
 {
 	while (is_space(**str))
 		(*str)++;
@@ -34,10 +34,11 @@ int	extract_color(char **str, int *color)
 		(*str)++;
 	}
 	if (n > 255)
-	   return (-1);
+		return (-1);
 	*color = n;
 	return (0);
 }
+
 int	check_colors(char *str, char id, t_rgb *flat)
 {
 	while (is_space(*str))

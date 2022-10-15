@@ -31,21 +31,21 @@ void	init_g_map(t_parsed_map *g_map)
 int	check_if_g_map_ready(t_parsed_map *g_map)
 {
 	if (g_map->texture.n == -1 || g_map->texture.s == -1
-			|| g_map->texture.w == -1 || g_map->texture.w == -1)
+		|| g_map->texture.w == -1 || g_map->texture.w == -1)
 		return (-1);
 	if (g_map->ceiling.r == -1 || g_map->ceiling.g == -1
-			|| g_map->ceiling.b == -1)
+		|| g_map->ceiling.b == -1)
 		return (-1);
 	if (g_map->floor.r == -1 || g_map->floor.g == -1
-			|| g_map->floor.b == -1)
+		|| g_map->floor.b == -1)
 		return (-1);
 	return (0);
 }
 
 void	print_map(t_parsed_map *g_map)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -62,14 +62,10 @@ void	print_map(t_parsed_map *g_map)
 	}
 }
 
-int	parse(int argc, char **argv, t_parsed_map *g_map)
+int	open_map(int argc, char **argv)
 {
-	int	fd;
-	char	*line;
-	int		until_map;
+	int		fd;
 
-	until_map = 0;
-	init_g_map(g_map);
 	if (argc == 1)
 		write_err_and_exit("No map");
 	else if (argc > 2)
@@ -79,6 +75,18 @@ int	parse(int argc, char **argv, t_parsed_map *g_map)
 		write_err_and_exit("Map not found");
 	if (ft_strncmp(argv[1] + ft_strlen(argv[1]) - 4, ".cub", 5))
 		write_err_and_exit("File is not .cub");
+	return (fd);
+}
+
+int	parse(int argc, char **argv, t_parsed_map *g_map)
+{
+	int		fd;
+	char	*line;
+	int		until_map;
+
+	until_map = 0;
+	init_g_map(g_map);
+	fd = open_map(argc, argv);
 	line = get_next_line(fd);
 	while (line && check_if_g_map_ready(g_map) == -1)
 	{
@@ -94,7 +102,5 @@ int	parse(int argc, char **argv, t_parsed_map *g_map)
 	else
 		write_err_and_exit("Not enough data");
 	close(fd);
-	print_map(g_map);
-	// printf ("\n%c\n", g_map->map[0][18]);
 	return (0);
 }

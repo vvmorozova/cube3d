@@ -46,5 +46,9 @@ int		check_color(char *str, char *dir, t_rgb *flat);
 int		check_flat(char *line, t_parsed_map *g_map);
 int		count_h_w(int fd, int how_many_to_skip, char *filename, t_parsed_map *g_map);
 int		parse_map(int fd, t_parsed_map *g_map);
+int		is_allowed(int c);
+int		allow(int c);
+void	check_holes(t_parsed_map *g_map, int i, int j);
+void	create_arr(t_parsed_map *g_map);
 
 #endif
