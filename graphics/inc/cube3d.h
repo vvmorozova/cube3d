@@ -32,7 +32,8 @@ typedef struct s_parsed_map{
 	t_rgb				ceiling;
 	t_rgb				floor;
 	int					direction;
-	int					**map;
+	char					**map;
+	// int					**map;
 
 }	t_parsed_map;
 
@@ -57,4 +58,5 @@ void	check_lines(t_parsed_map *g_map);
 void	check_columns(t_parsed_map *g_map);
 void	init_g_map(t_parsed_map *g_map);
 
+void	print_map(t_parsed_map *g_map);
 #endif

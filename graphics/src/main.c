@@ -7,7 +7,7 @@
 #include "graphics.h"
 #include "cube3d.h"
 
-char world_map[mapWidth][mapHeight];
+// char world_map[mapWidth][mapHeight];
 
 
 int	main(int argc, char **argv)
@@ -15,7 +15,6 @@ int	main(int argc, char **argv)
 	t_parsed_map	g_map;
 	// ft_bzero(&g_map, sizeof(t_parsed_map));
 	parse(argc, argv, &g_map);
-
 
 	t_mlx	mlx_data;
 
@@ -40,6 +39,7 @@ int	main(int argc, char **argv)
 	t_all_data	all_data;
 	all_data.mlx_data = &mlx_data;
 	all_data.data = &data;
+	all_data.map_data = &g_map;
 
 	if (init_txtrs(mlx_data.mlx, txts_path, all_data.txtrs))
 	{
@@ -58,6 +58,5 @@ int	main(int argc, char **argv)
 
 	// mlx_destroy_image
 	mlx_loop(mlx_data.mlx);
-
 }
 

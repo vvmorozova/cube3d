@@ -6,8 +6,6 @@
 
 #include "graphics.h"
 
-char world_map[mapWidth][mapHeight];
-
 int	key_pressed(int keycode, t_all_data *a_data)
 {
 	t_data	*d;
@@ -24,13 +22,13 @@ int	key_pressed(int keycode, t_all_data *a_data)
 	else if (keycode == 124)
 		rot_right(d);
 	else if (keycode == 125 || keycode == 1)
-		move_back(d);
+		move_back(d, a_data->map_data->map);
 	else if (keycode == 126 || keycode == 13)
-		move_front(d);
+		move_front(d, a_data->map_data->map);
 	else if (keycode == 0)
-		move_left(d);
+		move_left(d, a_data->map_data->map);
 	else if (keycode == 2)
-		move_right(d);
+		move_right(d, a_data->map_data->map);
 	redraw(a_data);
 	return (0);
 }

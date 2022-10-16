@@ -45,12 +45,12 @@ void	create_arr(t_parsed_map *g_map)
 	int	j;
 
 	j = 0;
-	g_map->map = (int **)malloc(sizeof(int *) * (g_map->size.y + 2));
+	g_map->map = (char **)malloc(sizeof(char *) * (g_map->size.y + 2));
 	if (!g_map->map)
 		write_err_and_exit("Malloc error");
 	while (j < g_map->size.y)
 	{
-		g_map->map[j] = (int *)malloc(sizeof(int) * (g_map->size.x + 1));
+		g_map->map[j] = (char *)malloc(sizeof(char) * (g_map->size.x + 1));
 		if (!g_map->map)
 			write_err_and_exit("Malloc error");
 		j++;

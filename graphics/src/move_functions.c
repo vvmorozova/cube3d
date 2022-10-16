@@ -6,10 +6,7 @@
 
 #include "graphics.h"
 
-char world_map[mapWidth][mapHeight];
-
-
-void	move_back(t_data *d)
+void	move_back(t_data *d, char	**world_map)
 {
 	double	move_speed = MOVE_SPEED;
 
@@ -19,7 +16,7 @@ void	move_back(t_data *d)
 		d->pos_y -= d->dir_y * move_speed;
 }
 
-void	move_front(t_data *d)
+void	move_front(t_data *d, char **world_map)
 {
 	double	move_speed = MOVE_SPEED;
 
@@ -29,7 +26,7 @@ void	move_front(t_data *d)
 		d->pos_y += d->dir_y * move_speed;
 }
 
-void	move_left(t_data *d)
+void	move_left(t_data *d, char **world_map)
 {
 	double	move_speed = MOVE_SPEED;
 
@@ -39,7 +36,7 @@ void	move_left(t_data *d)
 		d->pos_y -= d->plane_y * move_speed;
 }
 
-void	move_right(t_data *d)
+void	move_right(t_data *d, char **world_map)
 {
 	double	move_speed = MOVE_SPEED;
 

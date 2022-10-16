@@ -1,6 +1,7 @@
 #ifndef GRAPHICS_H
 # define GRAPHICS_H
 
+# include "cube3d.h"
 
 # ifndef RED
 #  define  RED 0x00FF0000
@@ -74,6 +75,7 @@ typedef struct	s_all_data {
 	t_data	*data;
 	t_txtr	txtrs[4];
 	// t_img	*txt;
+	t_parsed_map	*map_data;
 }			t_all_data;
 
 # ifndef ROT_SPEED
@@ -107,10 +109,10 @@ int		key_pressed(int keycode, t_all_data *a_data);
 void	rot_left(t_data *d);
 void	rot_right(t_data *d);
 	// move_functions.c
-void	move_back(t_data *d);
-void	move_front(t_data *d);
-void	move_left(t_data *d);
-void	move_right(t_data *d);
+void	move_back(t_data *d, char	**world_map);
+void	move_front(t_data *d, char	**world_map);
+void	move_left(t_data *d, char	**world_map);
+void	move_right(t_data *d, char	**world_map);
 
 int  close_window(t_mlx *mlx_data);
 #endif
