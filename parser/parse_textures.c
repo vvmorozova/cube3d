@@ -36,11 +36,12 @@ int	get_path_len(char *str)
 		return (-1);
 }
 
-void	check_texture_path(char *path)
+int	check_texture_path(char *path, int t)
 {
 	if (ft_strncmp(path + ft_strlen(path) - 4, ".xpm", 5))
 		write_err_and_exit("Texture is not .xpm");
 	free(path);
+	return (t);
 }
 
 //тут получаем пути картинок
@@ -64,10 +65,7 @@ int	check_path(char *str, char *dir)
 	path[t] = '\0';
 	t = open(path, O_RDONLY);
 	if (t > 0)
-	{
-		check_texture_path(path);
-		return (t);
-	}
+		return (check_texture_path(path, t));
 	else
 		write_err_and_exit("Texture not found");
 	free(path);

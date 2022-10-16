@@ -1,7 +1,7 @@
 SRCS			=	main.c \
-					utils/utils.c utils/free_g_map.c \
+					utils/utils.c \
 					parser/parser.c parser/parse_textures.c parser/parse_colors.c\
-					parser/parse_map.c parser/parse_map_1.c \
+					parser/parse_map.c parser/fill_map.c parser/check_holes.c\
 					gnl/get_next_line.c gnl/get_next_line_utils.c 
 
 OBJS			= $(SRCS:.c=.o)

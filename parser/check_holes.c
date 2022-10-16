@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_map_1.c                                      :+:      :+:    :+:   */
+/*   check_holes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eward <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/15 20:40:56 by eward             #+#    #+#             */
-/*   Updated: 2022/10/15 20:40:57 by eward            ###   ########.fr       */
+/*   Created: 2022/10/16 12:28:07 by eward             #+#    #+#             */
+/*   Updated: 2022/10/16 12:28:09 by eward            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,46 +81,4 @@ void	check_columns(t_parsed_map *g_map)
 			check_holes2(g_map, i, j);
 		}
 	}
-}
-
-int	check_map(t_parsed_map *g_map)
-{
-	check_lines(g_map);
-	check_columns(g_map);
-	return (0);
-}
-
-int	parse_map(int fd, t_parsed_map *g_map)
-{
-	char	*line;
-	int		i;
-	int		j;
-
-	create_arr(g_map);
-	j = -1;
-	line = get_next_line(fd);
-	while (line && ++j < g_map->size.y)
-	{
-		i = 0;
-		while (line[i] && is_allowed(line[i]) != -1)
-		{
-			g_map->map[j][i] = is_allowed(line[i]);
-			if (is_allowed(line[i]) > 64 && is_allowed(line[i]) < 91)
-			{
-				if (!g_map->direction)
-					g_map->direction = line[i];
-				else
-					write_err_and_exit("More than one player");
-			}
-			i++;
-		}
-		if (i < g_map->size.x - 1 && line[i] != '\n' && line[i] != '\0')
-			write_err_and_exit("Wrong symbols in map");
-		while (i < g_map->size.x)
-			g_map->map[j][i++] = ' ';
-		free(line);
-		line = get_next_line(fd);
-	}
-	check_map(g_map);
-	return (0);
 }

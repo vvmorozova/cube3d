@@ -12,23 +12,6 @@
 
 #include "../cube3d.h"
 
-void	init_g_map(t_parsed_map *g_map)
-{
-	g_map->texture.n = -1;
-	g_map->texture.s = -1;
-	g_map->texture.e = -1;
-	g_map->texture.w = -1;
-	g_map->texture.e = -1;
-	g_map->ceiling.r = -1;
-	g_map->ceiling.g = -1;
-	g_map->ceiling.b = -1;
-	g_map->floor.r = -1;
-	g_map->floor.g = -1;
-	g_map->floor.b = -1;
-	g_map->direction = 0;
-	g_map->map = NULL;
-}
-
 int	check_if_g_map_ready(t_parsed_map *g_map)
 {
 	if (g_map->texture.n == -1 || g_map->texture.s == -1

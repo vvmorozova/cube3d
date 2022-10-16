@@ -52,5 +52,8 @@ void	check_holes(t_parsed_map *g_map, int i, int j);
 void	create_arr(t_parsed_map *g_map);
 void	free_map(t_parsed_map *g_map);
 void	free_textures(t_parsed_map *g_map);
+void	check_lines(t_parsed_map *g_map);
+void	check_columns(t_parsed_map *g_map);
+void	init_g_map(t_parsed_map *g_map);
 
 #endif
