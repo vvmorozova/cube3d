@@ -32,7 +32,7 @@ int	main(int argc, char **argv)
 	
 	// data init
 	t_data	data;
-	data.pos_x = 22,	data.pos_y = 12.0;
+	data.pos_x = 10,	data.pos_y = 10.0;
 	data.dir_x = -1,	data.dir_y = 0;
 	data.plane_x = 0, data.plane_y = 0.66;
 
