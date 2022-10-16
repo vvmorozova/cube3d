@@ -9,6 +9,29 @@
 
 // char world_map[mapWidth][mapHeight];
 
+void	choose_dir(t_data	*data, char dir)
+{
+	if (dir == 'S' || dir == 'N')
+	{
+		data->plane_x = 0;
+		data->plane_y = 0.66;
+		data->dir_y = 0;
+		if (dir == 'S')
+			data->dir_x = 1;
+		if (dir == 'N')
+			data->dir_x = -1;
+	}
+	if (dir == 'E' || dir == 'W')
+	{
+		data->plane_x = 0.66;
+		data->plane_y = 0;
+		data->dir_x = 0;
+		if (dir == 'E')
+			data->dir_y = 1;
+		if (dir == 'W')
+			data->dir_y = -1;
+	}
+}
 
 int	main(int argc, char **argv)
 {
@@ -29,12 +52,14 @@ int	main(int argc, char **argv)
 								&mlx_data.img.endian);
 
 	char	*txts_path[5] = {"./txts/colorstone.xpm", "./txts/greystone.xpm", "./txts/purplestone.xpm", "./txts/redbrick.xpm", NULL};
-	
+	// n s w e
+	// P == E -> w
 	// data init
 	t_data	data;
 	data.pos_x = g_map.pos.x,	data.pos_y = g_map.pos.y;
-	data.dir_x = 1,	data.dir_y = 0;
-	data.plane_x = 0, data.plane_y = 0.66;
+	// data.dir_x = 1,	data.dir_y = 0;
+	choose_dir(&(data), g_map.direction);
+	// data.plane_x = 0.66, data.plane_y = 0;
 
 	t_all_data	all_data;
 	all_data.mlx_data = &mlx_data;
