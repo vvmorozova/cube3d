@@ -15,6 +15,11 @@ objects					:= $(subst .c,.o,$(subst ${src_dir},${obj_dir},${sources}))
 dirs					:= ${inc_dir} ${src_dir} ${build_dirs}
 build_dirs				:= ${obj_dir} ${bin_dir}
 
+map_dir					:= ./maps
+map_invalid				:= ${map_dir}/map1.cub
+map_valid				:= ${map_dir}/map2.cub
+
+
 CC						:= cc 
 CFLAGS					:= -I${inc_dir} -I${mlx_dir} -g -Wall -Wextra -Werror  -O0 
 mlx_flags				:= -L ${mlx_dir} -l mlx -framework OpenGL -framework AppKit
@@ -32,8 +37,11 @@ run: ${executable}
 
 tests: t1
 
-t1:
-	${executable} ./maps/map2.cub
+t1: ${executable}
+	${executable} ${map_invalid}
+
+t2: ${executable}
+	${executable} ${map_valid}
 
 ${executable}: ${objects} | ${bin_dir}
 	make -C ${libft}
