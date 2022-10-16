@@ -66,6 +66,8 @@ int		find_pixel(const t_img *src, int x, int y);
 
 // draw_start, draw_end - lowest and highest pixel
 // to fill in current stripe
+
+// tex_x - x coordinate of texture
 typedef struct	s_calc {
 	
 	double camera_x;
@@ -94,12 +96,15 @@ typedef struct	s_calc {
 	int line_height; 
 	int draw_start;
 	int draw_end;
+
+	int	tex_x;
 }			t_calc;
 
 void	init_calc(t_data *data, t_calc *calc, int x);
 void	calc_step_and_side_dist(t_data *data, t_calc *calc);
 void	dda(t_calc *calc);
 void	calc_line_height(t_calc *calc);
+t_img	*calc_txt(t_all_data *a_data, t_calc *calc);
 
 void	redraw(t_all_data *a_data)
 {
@@ -117,39 +122,8 @@ void	redraw(t_all_data *a_data)
 		init_calc(data, &calc, x);
 		dda(&calc);
 		calc_line_height(&calc);
-		
-		// textures
-		//calculate value of wallX
-		// calc.wall_x; //where exactly the wall was hit
-		if (calc.side == 0)
-			calc.wall_x = data->pos_y + calc.perp_wall_dist * calc.ray_dir_y;
-		else
-			calc.wall_x = data->pos_x + calc.perp_wall_dist * calc.ray_dir_x;
-		calc.wall_x -= floor((calc.wall_x));
-
-		//x coordinate on the texture
-		int tex_x = (int) (calc.wall_x * (double) TEX_WIDTH);
-		if (calc.side == 0 && calc.ray_dir_x > 0)
-			tex_x = TEX_WIDTH - tex_x - 1;
-		if (calc.side == 1 && calc.ray_dir_y < 0)
-			tex_x = TEX_WIDTH - tex_x - 1;
-
-		//calculate texture
-		if (calc.side == 0) // x side -> NS
-		{
-			if (calc.ray_dir_x > 0)
-				txt = &((a_data->txtrs + 0)->img);
-			else
-				txt = &((a_data->txtrs + 1)->img);
-		}
-		else // y side -> EW
-		{
-			if (calc.ray_dir_y > 0)
-				txt = &((a_data->txtrs + 2)->img);
-			else
-				txt = &((a_data->txtrs + 3)->img);
-		}
-		draw_txt_line(txt, &mlx_data->img, calc.draw_start, calc.draw_end, calc.line_height, x, tex_x);
+		txt = calc_txt(a_data, &calc);
+		draw_txt_line(txt, &mlx_data->img, calc.draw_start, calc.draw_end, calc.line_height, x, calc.tex_x);
 	}
 	mlx_put_image_to_window(mlx_data->mlx, mlx_data->mlx_win, mlx_data->img.img, 0, 0);
 }
@@ -248,6 +222,44 @@ void	calc_line_height(t_calc *calc)
 		calc->draw_end = screenHeight - 1;
 }
 
+t_img	*calc_txt(t_all_data *a_data, t_calc *calc)
+{
+	t_img	*txt;
+	t_data	*data = a_data->data;
+
+	// textures
+	//calculate value of wallX
+	// calc.wall_x; //where exactly the wall was hit
+	if (calc->side == 0)
+		calc->wall_x = data->pos_y + calc->perp_wall_dist * calc->ray_dir_y;
+	else
+		calc->wall_x = data->pos_x + calc->perp_wall_dist * calc->ray_dir_x;
+	calc->wall_x -= floor((calc->wall_x));
+
+	//x coordinate on the texture
+	calc->tex_x = (int) (calc->wall_x * (double) TEX_WIDTH);
+	if (calc->side == 0 && calc->ray_dir_x > 0)
+		calc->tex_x = TEX_WIDTH - calc->tex_x - 1;
+	if (calc->side == 1 && calc->ray_dir_y < 0)
+		calc->tex_x = TEX_WIDTH - calc->tex_x - 1;
+
+	//calculate texture
+	if (calc->side == 0) // x side -> NS
+	{
+		if (calc->ray_dir_x > 0)
+			txt = &((a_data->txtrs + 0)->img);
+		else
+			txt = &((a_data->txtrs + 1)->img);
+	}
+	else // y side -> EW
+	{
+		if (calc->ray_dir_y > 0)
+			txt = &((a_data->txtrs + 2)->img);
+		else
+			txt = &((a_data->txtrs + 3)->img);
+	}
+	return (txt);
+}
 
 
 void	draw_txt_line(t_img *src, t_img *dst, int start, int end, int height, int screen_x, int tex_x)
