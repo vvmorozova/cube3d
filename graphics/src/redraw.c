@@ -97,6 +97,7 @@ typedef struct	s_calc {
 }			t_calc;
 
 void	init_calc(t_data *data, t_calc *calc, int x);
+void	calc_step_and_side_dist(t_data *data, t_calc *calc);
 void	dda(t_calc *calc);
 void	calc_line_height(t_calc *calc);
 
@@ -109,7 +110,7 @@ void	redraw(t_all_data *a_data)
 
 	draw_c_f(mlx_data);
 
-	printf("x %f y %f; dirX %f dirY %f\n", data->pos_x, data->pos_y, data->dir_x, data->dir_y);	
+	// printf("x %f y %f; dirX %f dirY %f\n", data->pos_x, data->pos_y, data->dir_x, data->dir_y);	
 
 	for (int x = 0; x < screenWidth; x++)
 	{
@@ -170,74 +171,63 @@ void	draw_c_f(t_mlx *mlx_data)
 
 void	init_calc(t_data *data, t_calc *calc, int x)
 {
-		//calculate ray position and direction
-		calc->camera_x = 2 * x / (double) screenWidth - 1; //x-coordinate in camera space
+		calc->camera_x = 2 * x / (double) screenWidth - 1;
 		calc->ray_dir_x = data->dir_x + data->plane_x * calc->camera_x;
 		calc->ray_dir_y = data->dir_y + data->plane_y * calc->camera_x;
-	
-		//which box of the map we're in
 		calc->map_x = (int)data->pos_x ;
 		calc->map_y = (int)data->pos_y;
-
-		//length of ray from current position to next x or y-side
-		// calc.side_dist_x;
-		// calc.side_dist_y;
-
-		//length of ray from one x or y-side to next x or y-side
-		calc->delta_dist_x = (calc->ray_dir_x == 0) ? 1e30 : fabs(1 / calc->ray_dir_x);
-		calc->delta_dist_y = (calc->ray_dir_y == 0) ? 1e30 : fabs(1 / calc->ray_dir_y);
-		// calc.perp_wall_dist;
-
-		//what direction to step in x or y-direction (either +1 or -1)
-		// calc.step_x;
-		// calc.step_y;
-
-		calc->hit = 0; //was there a wall hit?
-		// calc.side; //was a NS or a EW wall hit?
-	
-		//calculate step and initial sideDist
-		if (calc->ray_dir_x < 0)
-		{
-			calc->step_x = -1;
-			calc->side_dist_x = (data->pos_x  - calc->map_x) * calc->delta_dist_x;
-		}
+		if (calc->ray_dir_x == 0)
+			calc->delta_dist_x = 1e30;
 		else
-		{
-			calc->step_x = 1;
-			calc->side_dist_x = (calc->map_x + 1.0 - data->pos_x ) * calc->delta_dist_x;
-		}
-		if (calc->ray_dir_y < 0)
-		{
-			calc->step_y = -1;
-			calc->side_dist_y = (data->pos_y - calc->map_y) * calc->delta_dist_y;
-		}
+			calc->delta_dist_x = fabs(1 / calc->ray_dir_x);
+		if (calc->ray_dir_y == 0)
+			calc->delta_dist_y = 1e30;
 		else
-		{
-			calc->step_y = 1;
-			calc->side_dist_y = (calc->map_y + 1.0 - data->pos_y) * calc->delta_dist_y;
-		}
+			calc->delta_dist_y = fabs(1 / calc->ray_dir_y);
+		calc->hit = 0;
+		calc_step_and_side_dist(data, calc);
+}
 
+void	calc_step_and_side_dist(t_data *data, t_calc *calc)
+{
+	if (calc->ray_dir_x < 0)
+	{
+		calc->step_x = -1;
+		calc->side_dist_x = (data->pos_x  - calc->map_x) * calc->delta_dist_x;
+	}
+	else
+	{
+		calc->step_x = 1;
+		calc->side_dist_x = (calc->map_x + 1.0 - data->pos_x ) * calc->delta_dist_x;
+	}
+	if (calc->ray_dir_y < 0)
+	{
+		calc->step_y = -1;
+		calc->side_dist_y = (data->pos_y - calc->map_y) * calc->delta_dist_y;
+	}
+	else
+	{
+		calc->step_y = 1;
+		calc->side_dist_y = (calc->map_y + 1.0 - data->pos_y) * calc->delta_dist_y;
+	}
 }
 
 void	dda(t_calc *calc)
 {
-	//perform DDA
 	while (calc->hit == 0)
 	{
-		//jump to next map square, either in x-direction, or in y-direction
 		if (calc->side_dist_x < calc->side_dist_y)
 		{
-		calc->side_dist_x += calc->delta_dist_x;
-		calc->map_x += calc->step_x;
-		calc->side = 0;
+			calc->side_dist_x += calc->delta_dist_x;
+			calc->map_x += calc->step_x;
+			calc->side = 0;
 		}
 		else
 		{
-		calc->side_dist_y += calc->delta_dist_y;
-		calc->map_y += calc->step_y;
-		calc->side = 1;
+			calc->side_dist_y += calc->delta_dist_y;
+			calc->map_y += calc->step_y;
+			calc->side = 1;
 		}
-		//Check if ray has hit a wall
 		if (world_map[calc->map_x][calc->map_y] > 0)
 			calc->hit = 1;
 	} 
@@ -245,16 +235,11 @@ void	dda(t_calc *calc)
 
 void	calc_line_height(t_calc *calc)
 {
-	//Calculate distance projected on camera direction (Euclidean distance would give fisheye effect!)
 	if (calc->side == 0)
 		calc->perp_wall_dist = (calc->side_dist_x - calc->delta_dist_x);
 	else
 		calc->perp_wall_dist = (calc->side_dist_y - calc->delta_dist_y);
-
-	//Calculate height of line to draw on screen
 	calc->line_height = (int)(screenHeight / calc->perp_wall_dist);
-
-	//calculate lowest and highest pixel to fill in current stripe
 	calc->draw_start = -calc->line_height / 2 + screenHeight / 2;
 	if (calc->draw_start < 0)
 		calc->draw_start = 0;
