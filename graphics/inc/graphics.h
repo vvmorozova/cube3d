@@ -112,5 +112,5 @@ void	move_front(t_data *d);
 void	move_left(t_data *d);
 void	move_right(t_data *d);
 
-
+int  close_window(t_mlx *mlx_data);
 #endif

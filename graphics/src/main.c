@@ -10,8 +10,6 @@
 char world_map[mapWidth][mapHeight];
 
 
-
-
 int	main(void)
 {
 	t_mlx	mlx_data;
@@ -45,12 +43,12 @@ int	main(void)
 		mlx_destroy_window(mlx_data.mlx, mlx_data.mlx_win);
 		exit(1);
 	}
+	
 	// mlx_put_image_to_window(mlx_data.mlx, mlx_data.mlx_win, txtrs[3].img.img, 0, 0);
 
 
 	redraw(&all_data);
-
-
+	mlx_hook(mlx_data.mlx_win, 17, 1L << 17, close_window, &mlx_data);
 	mlx_key_hook(mlx_data.mlx_win, key_pressed, &all_data);
 
 	// mlx_destroy_image
