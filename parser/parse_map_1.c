@@ -105,6 +105,13 @@ int	parse_map(int fd, t_parsed_map *g_map)
 		while (line[i] && is_allowed(line[i]) != -1)
 		{
 			g_map->map[j][i] = is_allowed(line[i]);
+			if (is_allowed(line[i]) > 64 && is_allowed(line[i]) < 91)
+			{
+				if (!g_map->direction)
+					g_map->direction = line[i];
+				else
+					write_err_and_exit("More than one player");
+			}
 			i++;
 		}
 		if (i < g_map->size.x - 1 && line[i] != '\n' && line[i] != '\0')

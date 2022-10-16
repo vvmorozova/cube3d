@@ -25,6 +25,7 @@ void	init_g_map(t_parsed_map *g_map)
 	g_map->floor.r = -1;
 	g_map->floor.g = -1;
 	g_map->floor.b = -1;
+	g_map->direction = 0;
 	g_map->map = NULL;
 }
 
@@ -78,6 +79,21 @@ int	open_map(int argc, char **argv)
 	return (fd);
 }
 
+void	replace_spaces(t_parsed_map *g_map)
+{
+	int	i;
+	int	j;
+
+	j = -1;
+	while (++j < g_map->size.y)
+	{
+		i = -1;
+		while (++i < g_map->size.x)
+			if (g_map->map[j][i] == ' ')
+				g_map->map[j][i] = 0;
+	}
+}
+
 int	parse(int argc, char **argv, t_parsed_map *g_map)
 {
 	int		fd;
@@ -101,6 +117,8 @@ int	parse(int argc, char **argv, t_parsed_map *g_map)
 		parse_map(fd, g_map);
 	else
 		write_err_and_exit("Not enough data");
+	replace_spaces(g_map);
+	print_map(g_map);
 	close(fd);
 	return (0);
 }
