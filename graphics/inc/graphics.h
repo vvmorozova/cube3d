@@ -103,7 +103,14 @@ void	verLine(t_img *img, int x, int drawStart, int drawEnd, int color);
 int		init_txtrs(void *mlx, char *paths[], t_txtr ts[]);
 
 
-int	key_pressed(int keycode, t_all_data *a_data);
+int		key_pressed(int keycode, t_all_data *a_data);
+void	rot_left(t_data *d);
+void	rot_right(t_data *d);
+	// move_functions.c
+void	move_back(t_data *d);
+void	move_front(t_data *d);
+void	move_left(t_data *d);
+void	move_right(t_data *d);
 
 
 #endif
