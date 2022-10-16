@@ -35,9 +35,6 @@ char world_map[mapWidth][mapHeight]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-void	draw_c_f(t_mlx *mlx_data);
-void	draw_txt_line(t_img *src, t_img *dst, int start, int end, int height, int screen_x, int tex_x);
-int		find_pixel(const t_img *src, int x, int y);
 
 
 // camera_x - x-coordinate in camera space
@@ -106,6 +103,11 @@ void	dda(t_calc *calc);
 void	calc_line_height(t_calc *calc);
 t_img	*calc_txt(t_all_data *a_data, t_calc *calc);
 
+void	draw_c_f(t_mlx *mlx_data);
+void	draw_txt_line(t_img *src, t_img *dst, t_calc *calc, int screen_x);
+int		find_pixel(const t_img *src, int x, int y);
+
+
 void	redraw(t_all_data *a_data)
 {
 	t_mlx	*mlx_data = a_data->mlx_data;
@@ -123,7 +125,7 @@ void	redraw(t_all_data *a_data)
 		dda(&calc);
 		calc_line_height(&calc);
 		txt = calc_txt(a_data, &calc);
-		draw_txt_line(txt, &mlx_data->img, calc.draw_start, calc.draw_end, calc.line_height, x, calc.tex_x);
+		draw_txt_line(txt, &mlx_data->img, &calc, x);
 	}
 	mlx_put_image_to_window(mlx_data->mlx, mlx_data->mlx_win, mlx_data->img.img, 0, 0);
 }
@@ -262,18 +264,17 @@ t_img	*calc_txt(t_all_data *a_data, t_calc *calc)
 }
 
 
-void	draw_txt_line(t_img *src, t_img *dst, int start, int end, int height, int screen_x, int tex_x)
+void	draw_txt_line(t_img *src, t_img *dst, t_calc *calc, int screen_x)
 {
 	int	color;
-	double	step = 1.0 * TEX_HEIGHT / height;
-	double tex_y = (start - screenHeight / 2 + height / 2) * step;;
-	// double	tex_y = 0;
+	double	step = 1.0 * TEX_HEIGHT / calc->line_height;
+	double tex_y = (calc->draw_start - screenHeight / 2 + calc->line_height / 2) * step;;
 
 	// repeat for all pixels from start to end
-	for (int screen_y = start; screen_y < end; screen_y++) {
+	for (int screen_y = calc->draw_start; screen_y < calc->draw_end; screen_y++) {
 
 	// locate src pixel
-	color = find_pixel(src, tex_x, (int)tex_y);
+	color = find_pixel(src, calc->tex_x, (int)tex_y);
 		// printf("tex_y is %f; color is %d\n", tex_y, color);
 	tex_y += step;
 	
