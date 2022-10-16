@@ -96,17 +96,15 @@ typedef struct	s_calc {
 	int draw_end;
 }			t_calc;
 
-// void	redraw(t_mlx *mlx_data, t_data *data)
+void	init_calc(t_data *data, t_calc *calc, int x);
+void	dda(t_calc *calc);
+void	calc_line_height(t_calc *calc);
+
 void	redraw(t_all_data *a_data)
 {
-	// mlx_data->img.img = mlx_new_image(mlx_data->mlx, screenWidth, screenHeight);
-	// mlx_data->img.addr = mlx_get_data_addr(mlx_data->img.img, &mlx_data->img.bits_per_pixel, &mlx_data->img.line_length,
-	// 							&mlx_data->img.endian);
-
 	t_mlx	*mlx_data = a_data->mlx_data;
 	t_data	*data = a_data->data;
 	t_img	*txt;
-	// t_img	*txt = a_data->txt;
 	t_calc	calc;
 
 	draw_c_f(mlx_data);
@@ -115,110 +113,10 @@ void	redraw(t_all_data *a_data)
 
 	for (int x = 0; x < screenWidth; x++)
 	{
-		//calculate ray position and direction
-		calc.camera_x = 2 * x / (double) screenWidth - 1; //x-coordinate in camera space
-		calc.ray_dir_x = data->dir_x + data->plane_x * calc.camera_x;
-		calc.ray_dir_y = data->dir_y + data->plane_y * calc.camera_x;
-	
-		//which box of the map we're in
-		calc.map_x = (int)data->pos_x ;
-		calc.map_y = (int)data->pos_y;
-
-		//length of ray from current position to next x or y-side
-		// calc.side_dist_x;
-		// calc.side_dist_y;
-
-		//length of ray from one x or y-side to next x or y-side
-		calc.delta_dist_x = (calc.ray_dir_x == 0) ? 1e30 : fabs(1 / calc.ray_dir_x);
-		calc.delta_dist_y = (calc.ray_dir_y == 0) ? 1e30 : fabs(1 / calc.ray_dir_y);
-		// calc.perp_wall_dist;
-
-		//what direction to step in x or y-direction (either +1 or -1)
-		// calc.step_x;
-		// calc.step_y;
-
-		calc.hit = 0; //was there a wall hit?
-		// calc.side; //was a NS or a EW wall hit?
-	
-		//calculate step and initial sideDist
-		if (calc.ray_dir_x < 0)
-		{
-			calc.step_x = -1;
-			calc.side_dist_x = (data->pos_x  - calc.map_x) * calc.delta_dist_x;
-		}
-		else
-		{
-			calc.step_x = 1;
-			calc.side_dist_x = (calc.map_x + 1.0 - data->pos_x ) * calc.delta_dist_x;
-		}
-		if (calc.ray_dir_y < 0)
-		{
-			calc.step_y = -1;
-			calc.side_dist_y = (data->pos_y - calc.map_y) * calc.delta_dist_y;
-		}
-		else
-		{
-			calc.step_y = 1;
-			calc.side_dist_y = (calc.map_y + 1.0 - data->pos_y) * calc.delta_dist_y;
-		}
-
-		//perform DDA
-		while (calc.hit == 0)
-		{
-			//jump to next map square, either in x-direction, or in y-direction
-			if (calc.side_dist_x < calc.side_dist_y)
-			{
-			calc.side_dist_x += calc.delta_dist_x;
-			calc.map_x += calc.step_x;
-			calc.side = 0;
-			}
-			else
-			{
-			calc.side_dist_y += calc.delta_dist_y;
-			calc.map_y += calc.step_y;
-			calc.side = 1;
-			}
-			//Check if ray has hit a wall
-			if (world_map[calc.map_x][calc.map_y] > 0)
-				calc.hit = 1;
-		} 
-
-		//Calculate distance projected on camera direction (Euclidean distance would give fisheye effect!)
-		if (calc.side == 0)
-			calc.perp_wall_dist = (calc.side_dist_x - calc.delta_dist_x);
-		else
-			calc.perp_wall_dist = (calc.side_dist_y - calc.delta_dist_y);
-
-		//Calculate height of line to draw on screen
-		calc.line_height = (int)(screenHeight / calc.perp_wall_dist);
-
-		//calculate lowest and highest pixel to fill in current stripe
-		calc.draw_start = -calc.line_height / 2 + screenHeight / 2;
-		if (calc.draw_start < 0)
-			calc.draw_start = 0;
-		calc.draw_end = calc.line_height / 2 + screenHeight / 2;
-		if (calc.draw_end >= screenHeight)
-			calc.draw_end = screenHeight - 1;
-
-
-		//choose wall color
-		int color;
-		switch(world_map[calc.map_x][calc.map_y])
-		{
-			case 1:  color = RED;  break; //red
-			case 2:  color = GREEN;  break; //green
-			case 3:  color = BLUE;   break; //blue
-			case 4:  color = BLUE;  break; //white
-			default: color = YELLOW; break; //yellow
-		}
-
-		//give x and y sides different brightness
-		// if (side == 1)
-		// {
-		// 	color = color / 2;
-		// }
-
-		// /*
+		init_calc(data, &calc, x);
+		dda(&calc);
+		calc_line_height(&calc);
+		
 		// textures
 		//calculate value of wallX
 		// calc.wall_x; //where exactly the wall was hit
@@ -250,47 +148,10 @@ void	redraw(t_all_data *a_data)
 			else
 				txt = &((a_data->txtrs + 3)->img);
 		}
-
 		draw_txt_line(txt, &mlx_data->img, calc.draw_start, calc.draw_end, calc.line_height, x, tex_x);
-
-/*
-		// How much to increase the texture coordinate per screen pixel
-		double step = 1.0 * TEX_HEIGHT / line_height;
-		// double step = 1.0 * line_height / TEX_HEIGHT;
-		// Starting texture coordinate
-		// double tex_pos = (draw_start - screenHeight / 2 + line_height / 2) * step;
-		int	y = draw_start;
-		for (double h = 0; h < (double)TEX_HEIGHT; h = h + step)
-		// for (int y = draw_start; y < draw_end; y++)
-		{
-			// Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
-			double tex_y = (double)h; // + step;
-			printf("tex_y %lf step %f text_x %d\n", tex_y, step, tex_x);
-			
-			// int tex_y = (int)tex_pos & (TEX_HEIGHT - 1);
-			// tex_pos += step;
-			// color = *(unsigned int *) (txt.addr + (tex_y * txt.line_length));
-			// color = *(unsigned int *) (txt.addr + (tex_y * 64));
-			color = *(unsigned int *) (txt.addr + ((int)tex_y * 64 + tex_x * (txt.bits_per_pixel / 8)));
-			my_mlx_pixel_put(&mlx_data->img, x, y, color);
-			// color = *(txt.addr + (tex_y * txt.line_length + tex_x * (txt.bits_per_pixel / 8)));
-
-			y++; // delete
-
-		}
-
-
-		// */
-
-		//draw the pixels of the stripe as a vertical line
-		// verLine(&mlx_data->img, x, draw_start, draw_end, color);
-
 	}
 	mlx_put_image_to_window(mlx_data->mlx, mlx_data->mlx_win, mlx_data->img.img, 0, 0);
-	// mlx_destroy_image(mlx_data->mlx, mlx_data->img.img);
-
 }
-// */
 
 void	draw_c_f(t_mlx *mlx_data)
 {
@@ -305,6 +166,101 @@ void	draw_c_f(t_mlx *mlx_data)
 	while (--i > 0) {
 		*(unsigned int *) dst++ = FLOOR;
 	}
+}
+
+void	init_calc(t_data *data, t_calc *calc, int x)
+{
+		//calculate ray position and direction
+		calc->camera_x = 2 * x / (double) screenWidth - 1; //x-coordinate in camera space
+		calc->ray_dir_x = data->dir_x + data->plane_x * calc->camera_x;
+		calc->ray_dir_y = data->dir_y + data->plane_y * calc->camera_x;
+	
+		//which box of the map we're in
+		calc->map_x = (int)data->pos_x ;
+		calc->map_y = (int)data->pos_y;
+
+		//length of ray from current position to next x or y-side
+		// calc.side_dist_x;
+		// calc.side_dist_y;
+
+		//length of ray from one x or y-side to next x or y-side
+		calc->delta_dist_x = (calc->ray_dir_x == 0) ? 1e30 : fabs(1 / calc->ray_dir_x);
+		calc->delta_dist_y = (calc->ray_dir_y == 0) ? 1e30 : fabs(1 / calc->ray_dir_y);
+		// calc.perp_wall_dist;
+
+		//what direction to step in x or y-direction (either +1 or -1)
+		// calc.step_x;
+		// calc.step_y;
+
+		calc->hit = 0; //was there a wall hit?
+		// calc.side; //was a NS or a EW wall hit?
+	
+		//calculate step and initial sideDist
+		if (calc->ray_dir_x < 0)
+		{
+			calc->step_x = -1;
+			calc->side_dist_x = (data->pos_x  - calc->map_x) * calc->delta_dist_x;
+		}
+		else
+		{
+			calc->step_x = 1;
+			calc->side_dist_x = (calc->map_x + 1.0 - data->pos_x ) * calc->delta_dist_x;
+		}
+		if (calc->ray_dir_y < 0)
+		{
+			calc->step_y = -1;
+			calc->side_dist_y = (data->pos_y - calc->map_y) * calc->delta_dist_y;
+		}
+		else
+		{
+			calc->step_y = 1;
+			calc->side_dist_y = (calc->map_y + 1.0 - data->pos_y) * calc->delta_dist_y;
+		}
+
+}
+
+void	dda(t_calc *calc)
+{
+	//perform DDA
+	while (calc->hit == 0)
+	{
+		//jump to next map square, either in x-direction, or in y-direction
+		if (calc->side_dist_x < calc->side_dist_y)
+		{
+		calc->side_dist_x += calc->delta_dist_x;
+		calc->map_x += calc->step_x;
+		calc->side = 0;
+		}
+		else
+		{
+		calc->side_dist_y += calc->delta_dist_y;
+		calc->map_y += calc->step_y;
+		calc->side = 1;
+		}
+		//Check if ray has hit a wall
+		if (world_map[calc->map_x][calc->map_y] > 0)
+			calc->hit = 1;
+	} 
+}
+
+void	calc_line_height(t_calc *calc)
+{
+	//Calculate distance projected on camera direction (Euclidean distance would give fisheye effect!)
+	if (calc->side == 0)
+		calc->perp_wall_dist = (calc->side_dist_x - calc->delta_dist_x);
+	else
+		calc->perp_wall_dist = (calc->side_dist_y - calc->delta_dist_y);
+
+	//Calculate height of line to draw on screen
+	calc->line_height = (int)(screenHeight / calc->perp_wall_dist);
+
+	//calculate lowest and highest pixel to fill in current stripe
+	calc->draw_start = -calc->line_height / 2 + screenHeight / 2;
+	if (calc->draw_start < 0)
+		calc->draw_start = 0;
+	calc->draw_end = calc->line_height / 2 + screenHeight / 2;
+	if (calc->draw_end >= screenHeight)
+		calc->draw_end = screenHeight - 1;
 }
 
 
