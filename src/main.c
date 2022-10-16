@@ -46,7 +46,7 @@ int	main(int argc, char **argv)
 	// t_img	img;
 
 	mlx_data.mlx = mlx_init();
-	mlx_data.mlx_win = mlx_new_window(mlx_data.mlx, screenWidth, screenHeight, "Hello world!");
+	mlx_data.mlx_win = mlx_new_window(mlx_data.mlx, screenWidth, screenHeight, "Cub");
 	mlx_data.img.img = mlx_new_image(mlx_data.mlx, screenWidth, screenHeight);
 	mlx_data.img.addr = mlx_get_data_addr(mlx_data.img.img, &mlx_data.img.bits_per_pixel, &mlx_data.img.line_length,
 								&mlx_data.img.endian);
