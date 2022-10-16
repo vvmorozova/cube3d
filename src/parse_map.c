@@ -28,6 +28,8 @@ void	player_amount(t_parsed_map *g_map, int i, int j, char *line)
 			g_map->direction = line[i];
 		else
 			write_err_and_exit("More than one player");
+		g_map->pos.x = j;
+		g_map->pos.y = i;
 	}
 }
 

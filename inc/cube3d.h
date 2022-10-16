@@ -19,6 +19,11 @@ typedef struct s_map_size{
 	int	y;
 }	t_map_size;
 
+typedef struct s_coordinates{
+	int	x;
+	int	y;
+}	t_coordinates;
+
 typedef struct s_path_to_textures{
 	int	n;
 	int	s;
@@ -32,9 +37,8 @@ typedef struct s_parsed_map{
 	t_rgb				ceiling;
 	t_rgb				floor;
 	int					direction;
-	char					**map;
-	// int					**map;
-
+	char				**map;
+	t_coordinates		pos;
 }	t_parsed_map;
 
 // t_parsed_map	g_map;
