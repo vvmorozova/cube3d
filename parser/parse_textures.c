@@ -70,6 +70,7 @@ int	check_path(char *str, char *dir)
 	}
 	else
 		write_err_and_exit("Texture not found");
+	free(path);
 	return (-2);
 }
 

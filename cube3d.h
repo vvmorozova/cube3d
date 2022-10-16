@@ -50,5 +50,7 @@ int		is_allowed(int c);
 int		allow(int c);
 void	check_holes(t_parsed_map *g_map, int i, int j);
 void	create_arr(t_parsed_map *g_map);
+void	free_map(t_parsed_map *g_map);
+void	free_textures(t_parsed_map *g_map);
 
 #endif
