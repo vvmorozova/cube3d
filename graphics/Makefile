@@ -4,6 +4,7 @@ inc_dir					:= ./inc
 src_dir					:= ./src
 mlx_dir					:= ./mlx
 sources					:= $(wildcard ${src_dir}/*.c)
+libft					:= ./libft
 
 build_dir				:= ./build
 obj_dir					:= ${build_dir}/obj
@@ -29,8 +30,14 @@ setup:
 run: ${executable}
 	@${^}
 
+tests: t1
+
+t1:
+	${executable} ./maps/map2.cub
+
 ${executable}: ${objects} | ${bin_dir}
-	${CC} ${CFLAGS} ${mlx_flags} -o ${@} ${^}
+	make -C ${libft}
+	${CC} ${CFLAGS} ${mlx_flags} -o ${@} ${^}  -L./libft -lft 
 
 ${obj_dir}/%.o: ${src_dir}/%.c | ${obj_dir}
 	${CC} ${CFLAGS} -c -o ${@} ${<}

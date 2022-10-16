@@ -5,13 +5,18 @@
 #include <stdio.h>
 
 #include "graphics.h"
-
+#include "cube3d.h"
 
 char world_map[mapWidth][mapHeight];
 
 
-int	main(void)
+int	main(int argc, char **argv)
 {
+	t_parsed_map	g_map;
+	// ft_bzero(&g_map, sizeof(t_parsed_map));
+	parse(argc, argv, &g_map);
+
+
 	t_mlx	mlx_data;
 
 	// void	*mlx;
@@ -53,5 +58,6 @@ int	main(void)
 
 	// mlx_destroy_image
 	mlx_loop(mlx_data.mlx);
+
 }
 
