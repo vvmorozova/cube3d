@@ -75,7 +75,7 @@ void	draw_txt_line(t_img *src, t_img *dst, t_calc *calc, int screen_x)
 	int		color;
 
 	step = 1.0 * TEX_HEIGHT / calc->line_height;
-	tex_y = (calc->draw_start - screenHeight / 2
+	tex_y = (calc->draw_start - SCREEN_HEIGHT / 2
 			+ calc->line_height / 2) * step;
 	screen_y = calc->draw_start;
 	while (screen_y < calc->draw_end)

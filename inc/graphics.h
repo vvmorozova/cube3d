@@ -3,12 +3,12 @@
 
 # include "cube3d.h"
 
-# ifndef screenWidth
-#define screenWidth 640
+# ifndef SCREEN_WIDTH
+#define SCREEN_WIDTH 640
 # endif
 
-# ifndef screenHeight
-#define screenHeight 480
+# ifndef SCREEN_HEIGHT
+#define SCREEN_HEIGHT 480
 # endif
 
 # ifndef TRANSPARENCY

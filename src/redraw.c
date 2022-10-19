@@ -22,7 +22,7 @@ void	redraw(t_all_data *a_data)
 	data = a_data->data;
 	x = 0;
 	draw_c_f(mlx_data, a_data->map_data);
-	while (x < screenWidth)
+	while (x < SCREEN_WIDTH)
 	{
 		init_calc(data, &calc, x);
 		dda(a_data->map_data->map, &calc);
@@ -51,10 +51,10 @@ void	draw_c_f(t_mlx *mlx_data, t_parsed_map *m)
 	ceil = create_rgb(m->ceiling);
 	floor = create_rgb(m->floor);
 	dst = (unsigned int *) mlx_data->img.addr;
-	i = screenWidth * screenHeight / 2 + 1;
+	i = SCREEN_WIDTH * SCREEN_HEIGHT / 2 + 1;
 	while (--i > 0)
 		*(unsigned int *) dst++ = ceil;
-	i = screenWidth * screenHeight / 2 + 1;
+	i = SCREEN_WIDTH * SCREEN_HEIGHT / 2 + 1;
 	while (--i > 0)
 		*(unsigned int *) dst++ = floor;
 }

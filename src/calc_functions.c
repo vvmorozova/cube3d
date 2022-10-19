@@ -8,7 +8,7 @@
 
 void	init_calc(t_data *data, t_calc *calc, int x)
 {
-	calc->camera_x = 2 * x / (double) screenWidth - 1;
+	calc->camera_x = 2 * x / (double) SCREEN_WIDTH - 1;
 	calc->ray_dir_x = data->dir_x + data->plane_x * calc->camera_x;
 	calc->ray_dir_y = data->dir_y + data->plane_y * calc->camera_x;
 	calc->map_x = (int)data->pos_x ;
@@ -79,11 +79,11 @@ void	calc_line_height(t_calc *calc)
 		calc->perp_wall_dist = (calc->side_dist_x - calc->delta_dist_x);
 	else
 		calc->perp_wall_dist = (calc->side_dist_y - calc->delta_dist_y);
-	calc->line_height = (int)(screenHeight / calc->perp_wall_dist);
-	calc->draw_start = -calc->line_height / 2 + screenHeight / 2;
+	calc->line_height = (int)(SCREEN_HEIGHT / calc->perp_wall_dist);
+	calc->draw_start = -calc->line_height / 2 + SCREEN_HEIGHT / 2;
 	if (calc->draw_start < 0)
 		calc->draw_start = 0;
-	calc->draw_end = calc->line_height / 2 + screenHeight / 2;
-	if (calc->draw_end >= screenHeight)
-		calc->draw_end = screenHeight - 1;
+	calc->draw_end = calc->line_height / 2 + SCREEN_HEIGHT / 2;
+	if (calc->draw_end >= SCREEN_HEIGHT)
+		calc->draw_end = SCREEN_HEIGHT - 1;
 }
