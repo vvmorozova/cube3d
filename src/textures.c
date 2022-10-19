@@ -6,7 +6,7 @@
 /*   By: bsarai <bsarai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 18:22:26 by bsarai            #+#    #+#             */
-/*   Updated: 2022/10/19 18:22:27 by bsarai           ###   ########.fr       */
+/*   Updated: 2022/10/19 18:26:41 by bsarai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,15 @@ int	init_txtrs(void *mlx, char *paths[], t_txtr ts[])
 t_img	*calc_txt(t_all_data *a_data, t_calc *calc)
 {
 	t_img	*txt;
-	t_data	*data = a_data->data;
+	t_data	*data;
 
+	data = a_data->data;
 	if (calc->side == 0)
 		calc->wall_x = data->pos_y + calc->perp_wall_dist * calc->ray_dir_y;
 	else
 		calc->wall_x = data->pos_x + calc->perp_wall_dist * calc->ray_dir_x;
 	calc->wall_x -= floor((calc->wall_x));
-	calc->tex_x = (int) (calc->wall_x * (double) TEX_WIDTH);
+	calc->tex_x = (int)(calc->wall_x * (double) TEX_WIDTH);
 	if (calc->side == 0 && calc->ray_dir_x > 0)
 		calc->tex_x = TEX_WIDTH - calc->tex_x - 1;
 	if (calc->side == 1 && calc->ray_dir_y < 0)
@@ -62,14 +63,14 @@ static t_img	*choose_txt(t_all_data *a_data, t_calc *calc)
 {
 	t_img	*txt;
 
-	if (calc->side == 0) // x side -> NS
+	if (calc->side == 0)
 	{
 		if (calc->ray_dir_x > 0)
 			txt = &((a_data->txtrs + 0)->img);
 		else
 			txt = &((a_data->txtrs + 1)->img);
 	}
-	else // y side -> EW
+	else
 	{
 		if (calc->ray_dir_y > 0)
 			txt = &((a_data->txtrs + 2)->img);

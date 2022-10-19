@@ -6,7 +6,7 @@
 /*   By: bsarai <bsarai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 18:21:58 by bsarai            #+#    #+#             */
-/*   Updated: 2022/10/19 18:22:10 by bsarai           ###   ########.fr       */
+/*   Updated: 2022/10/19 18:27:34 by bsarai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ static void	all_data_init(t_all_data *a_data, t_mlx	*mlx_data,
 	mlx_data->mlx = mlx_init();
 	mlx_data->mlx_win = mlx_new_window(mlx_data->mlx,
 			SCREEN_WIDTH, SCREEN_HEIGHT, "Cub");
-	mlx_data->img.img = mlx_new_image(mlx_data->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	mlx_data->img.img = mlx_new_image(mlx_data->mlx,
+			SCREEN_WIDTH, SCREEN_HEIGHT);
 	mlx_data->img.addr = mlx_get_data_addr(mlx_data->img.img,
 			&mlx_data->img.bits_per_pixel, &mlx_data->img.line_length,
 			&mlx_data->img.endian);
