@@ -3,28 +3,16 @@
 
 # include "cube3d.h"
 
+# ifndef screenWidth
+#define screenWidth 640
+# endif
+
+# ifndef screenHeight
+#define screenHeight 480
+# endif
+
 # ifndef TRANSPARENCY
 #  define TRANSPARENCY 0
-# endif
-
-# ifndef RED
-#  define  RED 0x00FF0000
-# endif
-
-# ifndef BLUE
-#  define BLUE 0x0000ff
-# endif
-
-# ifndef YELLOW
-#  define YELLOW 0xFF5733
-# endif
-
-# ifndef GREEN
-#  define GREEN 0x75FF33
-# endif
-
-# ifndef WHITE
-#  define WHITE 0xFFFFFF
 # endif
 
 # ifndef CEILING
@@ -35,8 +23,21 @@
 #  define FLOOR 0x34495E
 # endif
 
-#define screenWidth 640
-#define screenHeight 480
+# ifndef ROT_SPEED
+#  define ROT_SPEED 0.5
+# endif
+
+# ifndef MOVE_SPEED
+#  define MOVE_SPEED 0.7
+# endif
+
+# ifndef TEX_WIDTH
+#  define TEX_WIDTH 64
+# endif
+
+# ifndef TEX_HEIGHT
+#  define TEX_HEIGHT 64
+# endif
 
 typedef struct	s_img {
 	void	*img;
@@ -64,7 +65,6 @@ typedef struct	s_mlx {
 
 }			t_mlx;
 
-
 typedef struct	s_txtr {
 	t_img	img;
 	char	*relative_path;
@@ -76,39 +76,17 @@ typedef struct	s_all_data {
 	t_mlx	*mlx_data;
 	t_data	*data;
 	t_txtr	txtrs[4];
-	// t_img	*txt;
 	t_parsed_map	*map_data;
 }			t_all_data;
 
-# ifndef ROT_SPEED
-#  define ROT_SPEED 0.5
-# endif
-
-# ifndef MOVE_SPEED
-#  define MOVE_SPEED 0.7
-# endif
-
-
-// void	redraw(t_mlx *mlx_data, t_data *data);
 void	redraw(t_all_data *a_data);
 
-
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
-void	verLine(t_img *img, int x, int drawStart, int drawEnd, int color);
 
-# ifndef TEX_WIDTH
-#  define TEX_WIDTH 64
-# endif
-
-# ifndef TEX_HEIGHT
-#  define TEX_HEIGHT 64
-# endif
-
-
-
+	// textures
 int		init_txtrs(void *mlx, char *paths[], t_txtr ts[]);
 
-
+	// event-handling
 int		key_pressed(int keycode, t_all_data *a_data);
 void	rot_left(t_data *d);
 void	rot_right(t_data *d);
