@@ -71,8 +71,8 @@ int	check_path(char *str, char *dir, char **txt_path)
 		return (check_texture_path(path, t));
 	else
 		write_err_and_exit("Texture not found");
-	free(path); // delete
-	return (-2); // delete
+	free(path);
+	return (-2);
 }
 
 int	check_textures(char *line, t_parsed_map *g_map)

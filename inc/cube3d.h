@@ -64,6 +64,7 @@ void	check_columns(t_parsed_map *g_map);
 void	init_g_map(t_parsed_map *g_map);
 
 void	free_txt_paths(char *txt_path[]);
+int		check_if_g_map_ready(t_parsed_map *g_map);
 
 void	print_map(t_parsed_map *g_map);
 #endif

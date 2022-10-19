@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graphics_utils.c                                   :+:      :+:    :+:   */
+/*   check_g_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eward <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 18:07:42 by eward             #+#    #+#             */
-/*   Updated: 2022/10/19 18:07:44 by eward            ###   ########.fr       */
+/*   Created: 2022/10/19 18:49:34 by eward             #+#    #+#             */
+/*   Updated: 2022/10/19 18:49:37 by eward            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "graphics.h"
-#include <mlx.h>
-#include <stdlib.h>
+#include "cube3d.h"
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+int	check_if_g_map_ready(t_parsed_map *g_map)
 {
-	char	*dst;
-
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int *) dst = color;
-}
-
-int	close_window(t_mlx *mlx_data)
-{
-	mlx_destroy_window(mlx_data->mlx, mlx_data->mlx_win);
-	exit(0);
+	if (g_map->texture.n == -1 || g_map->texture.s == -1
+		|| g_map->texture.w == -1 || g_map->texture.w == -1)
+		return (-1);
+	if (g_map->ceiling.r == -1 || g_map->ceiling.g == -1
+		|| g_map->ceiling.b == -1)
+		return (-1);
+	if (g_map->floor.r == -1 || g_map->floor.g == -1
+		|| g_map->floor.b == -1)
+		return (-1);
 	return (0);
 }

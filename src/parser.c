@@ -12,19 +12,19 @@
 
 #include "cube3d.h"
 
-int	check_if_g_map_ready(t_parsed_map *g_map)
-{
-	if (g_map->texture.n == -1 || g_map->texture.s == -1
-		|| g_map->texture.w == -1 || g_map->texture.w == -1)
-		return (-1);
-	if (g_map->ceiling.r == -1 || g_map->ceiling.g == -1
-		|| g_map->ceiling.b == -1)
-		return (-1);
-	if (g_map->floor.r == -1 || g_map->floor.g == -1
-		|| g_map->floor.b == -1)
-		return (-1);
-	return (0);
-}
+// int	check_if_g_map_ready(t_parsed_map *g_map)
+// {
+// 	if (g_map->texture.n == -1 || g_map->texture.s == -1
+// 		|| g_map->texture.w == -1 || g_map->texture.w == -1)
+// 		return (-1);
+// 	if (g_map->ceiling.r == -1 || g_map->ceiling.g == -1
+// 		|| g_map->ceiling.b == -1)
+// 		return (-1);
+// 	if (g_map->floor.r == -1 || g_map->floor.g == -1
+// 		|| g_map->floor.b == -1)
+// 		return (-1);
+// 	return (0);
+// }
 
 void	print_map(t_parsed_map *g_map)
 {
@@ -77,29 +77,38 @@ void	replace_spaces(t_parsed_map *g_map)
 	}
 }
 
+t_parsed_map	*fill_info_about_text_color(char **line, t_parsed_map *g_map,
+	int *until_map, int *fd)
+{
+	int		i;
+
+	while (*line && check_if_g_map_ready(g_map) == -1)
+	{
+		i = 0;
+		while (is_space(*(*line + i)))
+			i++;
+		if (*(*line + i))
+			if (check_textures(*line + i, g_map) == -1
+				&& check_flat(*line + i, g_map) == -1)
+				write_err_and_exit("Id is not recognized or color > 255");
+		free(*line);
+		*line = get_next_line(*fd);
+		(*until_map)++;
+	}
+	return (g_map);
+}
+
 int	parse(int argc, char **argv, t_parsed_map *g_map)
 {
 	int		fd;
 	char	*line;
 	int		until_map;
-	int		i;
 
 	until_map = 0;
 	init_g_map(g_map);
 	fd = open_map(argc, argv);
 	line = get_next_line(fd);
-	while (line && check_if_g_map_ready(g_map) == -1)
-	{
-		i = 0;
-		while (is_space(*(line + i)))
-			i++;
-		if (*(line + i))
-			if (check_textures(line + i, g_map) == -1 && check_flat(line + i, g_map) == -1)
-				write_err_and_exit("Id is not recognized or more than one equal id or color > 255");
-		free(line);
-		line = get_next_line(fd);
-		until_map++;
-	}
+	g_map = fill_info_about_text_color(&line, g_map, &until_map, &fd);
 	if (line)
 		free(line);
 	fd = count_h_w(fd, until_map, argv[1], g_map);
