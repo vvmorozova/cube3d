@@ -34,7 +34,8 @@ int	count_h_w(int fd, int how_many_to_skip, char *filename, t_parsed_map *g_map)
 	fd = open(filename, O_RDONLY);
 	while (how_many_to_skip)
 	{
-		get_next_line(fd);
+		line = get_next_line(fd);
+		free(line);
 		how_many_to_skip--;
 	}
 	return (fd);

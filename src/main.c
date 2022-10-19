@@ -39,6 +39,8 @@ void	choose_dir(t_data	*data, char dir)
 // 		printf("path[%d]: %s\n", i, txts_path[i]);
 // }
 
+
+
 int	main(int argc, char **argv)
 {
 	t_parsed_map	g_map;
@@ -87,10 +89,12 @@ int	main(int argc, char **argv)
 	if (init_txtrs(mlx_data.mlx, txts_path, all_data.txtrs))
 	{
 		// clean paths
+		free_txt_paths(txts_path);
 		// destroy main image
 		mlx_destroy_window(mlx_data.mlx, mlx_data.mlx_win);
 		exit(1);
 	}
+	free_txt_paths(txts_path);
 	
 	// mlx_put_image_to_window(mlx_data.mlx, mlx_data.mlx_win, txtrs[3].img.img, 0, 0);
 

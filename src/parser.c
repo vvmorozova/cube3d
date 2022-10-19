@@ -85,9 +85,7 @@ int	parse(int argc, char **argv, t_parsed_map *g_map)
 
 	until_map = 0;
 	init_g_map(g_map);
-	printf("argv 1%s\n", argv[1]);
 	fd = open_map(argc, argv);
-	printf("argv 1%s fd %d\n", argv[1], fd);
 	line = get_next_line(fd);
 	while (line && check_if_g_map_ready(g_map) == -1)
 	{
@@ -97,6 +95,8 @@ int	parse(int argc, char **argv, t_parsed_map *g_map)
 		line = get_next_line(fd);
 		until_map++;
 	}
+	if (line)
+		free(line);
 	fd = count_h_w(fd, until_map, argv[1], g_map);
 	if (check_if_g_map_ready(g_map) == 0)
 		parse_map(fd, g_map);

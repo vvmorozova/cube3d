@@ -59,3 +59,15 @@ void	free_map(t_parsed_map *g_map)
 		free(g_map->map[j]);
 	free(g_map->map);
 }
+
+void	free_txt_paths(char *txt_path[])
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		free(txt_path[i]);
+		i++;
+	}
+}
