@@ -1,4 +1,4 @@
-project					:= cub3d
+project					:= cub3D
 
 inc_dir					:= ./inc
 src_dir					:= ./src
@@ -24,7 +24,7 @@ map_valid				:= ${map_dir}/map2.cub
 
 
 CC						:= cc 
-CFLAGS					:= -I${inc_dir} -I${mlx_dir} -g -Wall -Wextra -Werror  -O0 
+CFLAGS					:= -I${inc_dir} -I${mlx_dir} -g -Wall -Wextra -Werror  -O0
 mlx_flags				:= -L ${mlx_dir} -l mlx -framework OpenGL -framework AppKit
 
 .PHONY: all  clean fclean re 
