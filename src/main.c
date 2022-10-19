@@ -9,28 +9,43 @@
 
 // char world_map[mapWidth][mapHeight];
 
+void	choose_dir_e_w(t_data *data, char dir)
+{
+	if (dir == 'E' || dir == 'W')
+	{
+		data->plane_y = 0;
+		data->dir_x = 0;
+		if (dir == 'E')
+		{
+			data->dir_y = 1;
+			data->plane_x = 0.66;
+		}
+		if (dir == 'W')
+		{
+			data->dir_y = -1;
+			data->plane_x = -0.66;
+		}
+	}
+}
+
 void	choose_dir(t_data	*data, char dir)
 {
 	if (dir == 'S' || dir == 'N')
 	{
 		data->plane_x = 0;
-		data->plane_y = 0.66;
 		data->dir_y = 0;
 		if (dir == 'S')
+		{
 			data->dir_x = 1;
+			data->plane_y = -0.66;
+		}
 		if (dir == 'N')
+		{
 			data->dir_x = -1;
+			data->plane_y = 0.66;
+		}
 	}
-	if (dir == 'E' || dir == 'W')
-	{
-		data->plane_x = 0.66;
-		data->plane_y = 0;
-		data->dir_x = 0;
-		if (dir == 'E')
-			data->dir_y = 1;
-		if (dir == 'W')
-			data->dir_y = -1;
-	}
+	choose_dir_e_w(data, dir);
 }
 
 // void	print_paths(char *txts_path[])
