@@ -82,6 +82,7 @@ int	parse(int argc, char **argv, t_parsed_map *g_map)
 	int		fd;
 	char	*line;
 	int		until_map;
+	int		i;
 
 	until_map = 0;
 	init_g_map(g_map);
@@ -89,8 +90,12 @@ int	parse(int argc, char **argv, t_parsed_map *g_map)
 	line = get_next_line(fd);
 	while (line && check_if_g_map_ready(g_map) == -1)
 	{
-		if (check_textures(line, g_map) == -1 && check_flat(line, g_map) == -1)
-			write_err_and_exit("Id is not recognized");
+		i = 0;
+		while (is_space(*(line + i)))
+			i++;
+		if (*(line + i))
+			if (check_textures(line + i, g_map) == -1 && check_flat(line + i, g_map) == -1)
+				write_err_and_exit("Id is not recognized or more than one equal id");
 		free(line);
 		line = get_next_line(fd);
 		until_map++;
