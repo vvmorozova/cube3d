@@ -2,8 +2,8 @@ NO ./txts/colorstone.xpm
 SO ./txts/greystone.xpm
 WE ./txts/purplestone.xpm
 EA ./txts/redbrick.xpm
-C 225,30,0
-F 220,100,0
+C 252,243,207
+F 52,73,94
         1111111111111111111111111
         1000000000110000000000001
         1011000001110000000000001

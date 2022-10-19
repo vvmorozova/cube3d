@@ -3,6 +3,10 @@
 
 # include "cube3d.h"
 
+# ifndef TRANSPARENCY
+#  define TRANSPARENCY 0
+# endif
+
 # ifndef RED
 #  define  RED 0x00FF0000
 # endif
@@ -101,6 +105,8 @@ void	verLine(t_img *img, int x, int drawStart, int drawEnd, int color);
 # ifndef TEX_HEIGHT
 #  define TEX_HEIGHT 64
 # endif
+
+
 
 int		init_txtrs(void *mlx, char *paths[], t_txtr ts[]);
 

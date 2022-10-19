@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "graphics.h"
+#include "cube3d.h"
 
 // /*
 
@@ -103,10 +104,11 @@ void	dda(char	**world_map, t_calc *calc);
 void	calc_line_height(t_calc *calc);
 t_img	*calc_txt(t_all_data *a_data, t_calc *calc);
 
-void	draw_c_f(t_mlx *mlx_data);
+void	draw_c_f(t_mlx *mlx_data, t_parsed_map *map);
 void	draw_txt_line(t_img *src, t_img *dst, t_calc *calc, int screen_x);
 int		find_pixel(const t_img *src, int x, int y);
 
+int		create_rgb(t_rgb color);
 
 void	redraw(t_all_data *a_data)
 {
@@ -115,7 +117,7 @@ void	redraw(t_all_data *a_data)
 	t_img	*txt;
 	t_calc	calc;
 
-	draw_c_f(mlx_data);
+	draw_c_f(mlx_data, a_data->map_data);
 	// printf("x %f y %f; dirX %f dirY %f\n", data->pos_x, data->pos_y, data->dir_x, data->dir_y);	
 
 	for (int x = 0; x < screenWidth; x++)
@@ -129,19 +131,29 @@ void	redraw(t_all_data *a_data)
 	mlx_put_image_to_window(mlx_data->mlx, mlx_data->mlx_win, mlx_data->img.img, 0, 0);
 }
 
-void	draw_c_f(t_mlx *mlx_data)
+int		create_rgb(t_rgb color)
+{
+	return (TRANSPARENCY << 24 | color.r << 16 |
+			color.g << 8 | color.b);
+}
+
+
+void	draw_c_f(t_mlx *mlx_data, t_parsed_map *m)
 {
 	unsigned int	*dst;
 	unsigned int		i;
+	int	ceil;
+	int	floor;
 
+	ceil = create_rgb(m->ceiling);
+	floor = create_rgb(m->floor);
 	dst = (unsigned int *) mlx_data->img.addr;
 	i = screenWidth * screenHeight / 2 + 1;
 	while (--i > 0)
-		*(unsigned int *) dst++ = CEILING;
+		*(unsigned int *) dst++ = ceil;
 	i = screenWidth * screenHeight / 2 + 1;
-	while (--i > 0) {
-		*(unsigned int *) dst++ = FLOOR;
-	}
+	while (--i > 0)
+		*(unsigned int *) dst++ = floor;
 }
 
 void	init_calc(t_data *data, t_calc *calc, int x)
