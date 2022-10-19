@@ -18,6 +18,7 @@ int	skip_comma(char **str)
 		(*str)++;
 	if (**str != ',')
 		return (-1);
+	(*str)++;
 	while (is_space(**str))
 		(*str)++;
 	return (0);
@@ -71,5 +72,7 @@ int	check_flat(char *line, t_parsed_map *g_map)
 		check_colors(line, 'F', &(g_map->floor));
 	else
 		return (-1);
+	printf ("C %d %d %d\n", g_map->ceiling.r, g_map->ceiling.g, g_map->ceiling.b);
+	printf ("F %d %d %d\n", g_map->floor.r, g_map->floor.g, g_map->floor.b);
 	return (0);
 }
