@@ -95,7 +95,7 @@ int	parse(int argc, char **argv, t_parsed_map *g_map)
 			i++;
 		if (*(line + i))
 			if (check_textures(line + i, g_map) == -1 && check_flat(line + i, g_map) == -1)
-				write_err_and_exit("Id is not recognized or more than one equal id");
+				write_err_and_exit("Id is not recognized or more than one equal id or color > 255");
 		free(line);
 		line = get_next_line(fd);
 		until_map++;
