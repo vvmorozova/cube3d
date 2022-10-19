@@ -4,11 +4,11 @@
 # include "cube3d.h"
 
 # ifndef SCREEN_WIDTH
-#define SCREEN_WIDTH 640
+#  define SCREEN_WIDTH 640
 # endif
 
 # ifndef SCREEN_HEIGHT
-#define SCREEN_HEIGHT 480
+#  define SCREEN_HEIGHT 480
 # endif
 
 # ifndef TRANSPARENCY
@@ -39,7 +39,7 @@
 #  define TEX_HEIGHT 64
 # endif
 
-typedef struct	s_img {
+typedef struct s_img {
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
@@ -47,35 +47,34 @@ typedef struct	s_img {
 	int		endian;
 }			t_img;
 
-typedef struct	s_data {
-	double pos_x; //start position
-	double pos_y;//start position
+typedef struct s_data {
+	double	pos_x;
+	double	pos_y;
 
-	double dir_x; //initial direction vector
-	double dir_y; //initial direction vector
-	double plane_x; //the 2d raycaster version of camera plane
-	double plane_y; //the 2d raycaster version of camera plane
-
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
 }			t_data;
 
-typedef struct	s_mlx {
+typedef struct s_mlx {
 	void	*mlx;
 	void	*mlx_win;
 	t_img	img;
 
 }			t_mlx;
 
-typedef struct	s_txtr {
+typedef struct s_txtr {
 	t_img	img;
 	char	*relative_path;
 	int		img_width;
 	int		img_height;
 }			t_txtr;
 
-typedef struct	s_all_data {
-	t_mlx	*mlx_data;
-	t_data	*data;
-	t_txtr	txtrs[4];
+typedef struct s_all_data {
+	t_mlx			*mlx_data;
+	t_data			*data;
+	t_txtr			txtrs[4];
 	t_parsed_map	*map_data;
 }			t_all_data;
 
@@ -107,36 +106,35 @@ typedef struct	s_all_data {
 // to fill in current stripe
 
 // tex_x - x coordinate of texture
-typedef struct	s_calc {
-	
-	double camera_x;
-	double ray_dir_x;
-	double ray_dir_y;
+typedef struct s_calc {
+	double	camera_x;
+	double	ray_dir_x;
+	double	ray_dir_y;
 
-	int map_x;
-	int map_y;
+	int		map_x;
+	int		map_y;
 
-	double side_dist_x;
-	double side_dist_y;
+	double	side_dist_x;
+	double	side_dist_y;
 
-	double delta_dist_x;
-	double delta_dist_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
 
-	double perp_wall_dist;
+	double	perp_wall_dist;
 
-	int step_x;
-	int step_y;
+	int		step_x;
+	int		step_y;
 
-	int hit;
-	int	side;
+	int		hit;
+	int		side;
 
-	double wall_x;
+	double	wall_x;
 
-	int line_height; 
-	int draw_start;
-	int draw_end;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
 
-	int	tex_x;
+	int		tex_x;
 }			t_calc;
 
 void	redraw(t_all_data *a_data);
@@ -164,5 +162,5 @@ void	move_front(t_data *d, char	**world_map);
 void	move_left(t_data *d, char	**world_map);
 void	move_right(t_data *d, char	**world_map);
 
-int  close_window(t_mlx *mlx_data);
+int		close_window(t_mlx *mlx_data);
 #endif
