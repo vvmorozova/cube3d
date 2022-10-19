@@ -16,7 +16,7 @@
 int	write_err_and_exit(char *err)
 {
 	printf("Error\n%s\n", err);
-	exit(0);
+	exit(1);
 }
 
 int	is_space(char c)
