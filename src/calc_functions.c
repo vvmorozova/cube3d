@@ -6,24 +6,23 @@
 #include "graphics.h"
 #include "cube3d.h"
 
-
 void	init_calc(t_data *data, t_calc *calc, int x)
 {
-		calc->camera_x = 2 * x / (double) screenWidth - 1;
-		calc->ray_dir_x = data->dir_x + data->plane_x * calc->camera_x;
-		calc->ray_dir_y = data->dir_y + data->plane_y * calc->camera_x;
-		calc->map_x = (int)data->pos_x ;
-		calc->map_y = (int)data->pos_y;
-		if (calc->ray_dir_x == 0)
-			calc->delta_dist_x = 1e30;
-		else
-			calc->delta_dist_x = fabs(1 / calc->ray_dir_x);
-		if (calc->ray_dir_y == 0)
-			calc->delta_dist_y = 1e30;
-		else
-			calc->delta_dist_y = fabs(1 / calc->ray_dir_y);
-		calc->hit = 0;
-		calc_step_and_side_dist(data, calc);
+	calc->camera_x = 2 * x / (double) screenWidth - 1;
+	calc->ray_dir_x = data->dir_x + data->plane_x * calc->camera_x;
+	calc->ray_dir_y = data->dir_y + data->plane_y * calc->camera_x;
+	calc->map_x = (int)data->pos_x ;
+	calc->map_y = (int)data->pos_y;
+	if (calc->ray_dir_x == 0)
+		calc->delta_dist_x = 1e30;
+	else
+		calc->delta_dist_x = fabs(1 / calc->ray_dir_x);
+	if (calc->ray_dir_y == 0)
+		calc->delta_dist_y = 1e30;
+	else
+		calc->delta_dist_y = fabs(1 / calc->ray_dir_y);
+	calc->hit = 0;
+	calc_step_and_side_dist(data, calc);
 }
 
 void	calc_step_and_side_dist(t_data *data, t_calc *calc)
@@ -31,12 +30,14 @@ void	calc_step_and_side_dist(t_data *data, t_calc *calc)
 	if (calc->ray_dir_x < 0)
 	{
 		calc->step_x = -1;
-		calc->side_dist_x = (data->pos_x  - calc->map_x) * calc->delta_dist_x;
+		calc->side_dist_x = (data->pos_x - calc->map_x)
+			* calc->delta_dist_x;
 	}
 	else
 	{
 		calc->step_x = 1;
-		calc->side_dist_x = (calc->map_x + 1.0 - data->pos_x ) * calc->delta_dist_x;
+		calc->side_dist_x = (calc->map_x + 1.0
+				- data->pos_x) * calc->delta_dist_x;
 	}
 	if (calc->ray_dir_y < 0)
 	{
@@ -46,7 +47,8 @@ void	calc_step_and_side_dist(t_data *data, t_calc *calc)
 	else
 	{
 		calc->step_y = 1;
-		calc->side_dist_y = (calc->map_y + 1.0 - data->pos_y) * calc->delta_dist_y;
+		calc->side_dist_y = (calc->map_y + 1.0
+				- data->pos_y) * calc->delta_dist_y;
 	}
 }
 
@@ -68,7 +70,7 @@ void	dda(char **world_map, t_calc *calc)
 		}
 		if (world_map[calc->map_x][calc->map_y] > 0)
 			calc->hit = 1;
-	} 
+	}
 }
 
 void	calc_line_height(t_calc *calc)
