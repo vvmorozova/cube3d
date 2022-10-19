@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include "graphics.h"
 
-char world_map[mapWidth][mapHeight];
 
 int	init_txtrs(void *mlx, char *paths[], t_txtr ts[])
 {
