@@ -79,7 +79,74 @@ typedef struct	s_all_data {
 	t_parsed_map	*map_data;
 }			t_all_data;
 
+// camera_x - x-coordinate in camera space
+// ray_dir_x, ray_dir_y - position of the ray
+
+// map_x, map_y - which box of the map we're in
+
+// side_dist_x, side_dist_y - length of ray from 
+// current position to next x or y-side
+
+// delta_dist_x, delta_dist_y - length of ray from
+// one x or y-side to next x or y-side
+
+// perp_wall_dist - perpendicular distance projected
+// on camera direction
+
+// step_x, step_y - what direction to step in x or
+// y-direction (either +1 or -1)
+
+// hit - was there a wall hit?
+// side - was a NS or a EW wall hit?
+
+// wall_x - where exactly the wall was hit
+
+// line_height - height of line to draw on screen
+
+// draw_start, draw_end - lowest and highest pixel
+// to fill in current stripe
+
+// tex_x - x coordinate of texture
+typedef struct	s_calc {
+	
+	double camera_x;
+	double ray_dir_x;
+	double ray_dir_y;
+
+	int map_x;
+	int map_y;
+
+	double side_dist_x;
+	double side_dist_y;
+
+	double delta_dist_x;
+	double delta_dist_y;
+
+	double perp_wall_dist;
+
+	int step_x;
+	int step_y;
+
+	int hit;
+	int	side;
+
+	double wall_x;
+
+	int line_height; 
+	int draw_start;
+	int draw_end;
+
+	int	tex_x;
+}			t_calc;
+
 void	redraw(t_all_data *a_data);
+
+	// calc_functions.c
+void	init_calc(t_data *data, t_calc *calc, int x);
+void	calc_step_and_side_dist(t_data *data, t_calc *calc);
+void	dda(char	**world_map, t_calc *calc);
+void	calc_line_height(t_calc *calc);
+t_img	*calc_txt(t_all_data *a_data, t_calc *calc);
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 
