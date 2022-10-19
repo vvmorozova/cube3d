@@ -146,12 +146,13 @@ void	init_calc(t_data *data, t_calc *calc, int x);
 void	calc_step_and_side_dist(t_data *data, t_calc *calc);
 void	dda(char	**world_map, t_calc *calc);
 void	calc_line_height(t_calc *calc);
-t_img	*calc_txt(t_all_data *a_data, t_calc *calc);
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 	// textures
 int		init_txtrs(void *mlx, char *paths[], t_txtr ts[]);
+t_img	*calc_txt(t_all_data *a_data, t_calc *calc);
+void	draw_txt_line(t_img *src, t_img *dst, t_calc *calc, int screen_x);
 
 	// event-handling
 int		key_pressed(int keycode, t_all_data *a_data);
