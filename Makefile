@@ -17,6 +17,9 @@ build_dirs				:= ${obj_dir} ${bin_dir}
 
 map_dir					:= ./maps
 map_invalid				:= ${map_dir}/map1.cub
+map_invalid_path		:= ${map_dir}/invalid_path.cub
+map_invalid_name		:= ${map_dir}/invalid.cub
+
 map_valid				:= ${map_dir}/map2.cub
 
 
@@ -37,11 +40,17 @@ run: ${executable}
 
 tests: t1
 
+t0: ${executable}
+	${executable} ${map_valid}
+
 t1: ${executable}
-	${executable} ${map_invalid}
+	${executable} ${map_invalid_path}
 
 t2: ${executable}
-	${executable} ${map_valid}
+	${executable} ${map_invalid_name}
+
+
+
 
 ${executable}: ${objects} | ${bin_dir}
 	make -C ${libft}
