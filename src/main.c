@@ -33,11 +33,29 @@ void	choose_dir(t_data	*data, char dir)
 	}
 }
 
+// void	print_paths(char *txts_path[])
+// {
+// 	for (int i = 0; i < 4; i++)
+// 		printf("path[%d]: %s\n", i, txts_path[i]);
+// }
+
 int	main(int argc, char **argv)
 {
 	t_parsed_map	g_map;
 	// ft_bzero(&g_map, sizeof(t_parsed_map));
 	parse(argc, argv, &g_map);
+	// print_paths(g_map.txts_path);
+
+	char	**txts_path = g_map.txts_path;
+	// print_paths(txts_path);
+
+	// txts_path[0] = ft_strdup("./txts/colorstone.xpm");
+	// txts_path[1] = ft_strdup("./txts/greystone.xpm");
+	// txts_path[2] = ft_strdup("./txts/purplestone.xpm");
+	// txts_path[3] = ft_strdup("./txts/redbrick.xpm");
+
+	// printf("txts_path\n");
+	// print_paths(txts_path);
 
 	t_mlx	mlx_data;
 
@@ -51,7 +69,7 @@ int	main(int argc, char **argv)
 	mlx_data.img.addr = mlx_get_data_addr(mlx_data.img.img, &mlx_data.img.bits_per_pixel, &mlx_data.img.line_length,
 								&mlx_data.img.endian);
 
-	char	*txts_path[5] = {"./txts/colorstone.xpm", "./txts/greystone.xpm", "./txts/purplestone.xpm", "./txts/redbrick.xpm", NULL};
+	// char	*txts_path[5] = {"./txts/colorstone.xpm", "./txts/greystone.xpm", "./txts/purplestone.xpm", "./txts/redbrick.xpm", NULL};
 	// n s w e
 	// P == E -> w
 	// data init

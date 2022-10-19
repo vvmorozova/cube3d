@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "cube3d.h"
+#include <stdlib.h>
 
 int	write_err_and_exit(char *err)
 {
@@ -42,6 +43,11 @@ void	init_g_map(t_parsed_map *g_map)
 	g_map->floor.b = -1;
 	g_map->direction = 0;
 	g_map->map = NULL;
+	g_map->txts_path[0] = NULL;
+	g_map->txts_path[1] = NULL;
+	g_map->txts_path[2] = NULL;
+	g_map->txts_path[3] = NULL;
+	g_map->txts_path[4] = NULL;
 }
 
 void	free_map(t_parsed_map *g_map)

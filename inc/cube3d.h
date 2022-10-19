@@ -33,6 +33,7 @@ typedef struct s_path_to_textures{
 
 typedef struct s_parsed_map{
 	t_path_to_textures	texture;
+	char				*txts_path[5];
 	t_map_size			size;
 	t_rgb				ceiling;
 	t_rgb				floor;
